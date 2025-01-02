@@ -8,9 +8,8 @@ template_dir = os.path.join(os.path.dirname(__file__), "templates")
 
 templates = Jinja2Templates(directory=template_dir)
 
-router = APIRouter(
-    tags=["Root"]
-)
+router = APIRouter(tags=["Root"])
+
 
 @router.get("/", response_class=HTMLResponse)
 def root(request: Request):

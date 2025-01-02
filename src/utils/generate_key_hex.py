@@ -12,4 +12,5 @@ def generate_key_hex():
     log.info(f"Generated Key: {key}")
     return key
 
+
 generated_key = generate_key_hex()

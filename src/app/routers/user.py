@@ -6,10 +6,7 @@ from .. import models, schemas
 from ..database import get_db
 from ...utils.verifyi import hash_password
 
-router = APIRouter(
-    prefix="/v1/users",
-    tags=["Users"]
-)
+router = APIRouter(prefix="/v1/users", tags=["Users"])
 
 
 @router.get("/", response_model=List[schemas.User])
@@ -39,5 +36,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 def check_if_exists(user, user_id):
     if user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"User with {user_id} id was not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with {user_id} id was not found",
+        )
