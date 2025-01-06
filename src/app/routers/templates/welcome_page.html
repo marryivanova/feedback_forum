@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Blog FastAPI</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #1e2a47; /* Dark blue background */
+            color: white;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+        }
+
+        .btn-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            color: white;
+            background-color: #4c84ff;
+            border: 2px solid #4c84ff;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #3869d9;
+            border-color: #3869d9;
+        }
+
+        /* Tooltip style */
+        .tooltip {
+            position: absolute;
+            top: 50%;
+            left: 105%;
+            transform: translateY(-50%);
+            background-color: #ffffff;
+            color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 220px;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #4c84ff;
+            display: none;
+        }
+
+        .tooltip:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            transform: translateY(-50%);
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #ffffff transparent transparent;
+        }
+
+        .btn-container:hover .tooltip {
+            display: block;
+        }
+
+        .description {
+            background-color: #ffffff;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .form-container {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container input,
+        .form-container textarea {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4c84ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #3869d9;
+        }
+
+        /* Dropdown inside the button with blue border and white background */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px; /* Поднимем выпадашку */
+        }
+
+        .dropdown select {
+            background-color: #fff;
+            color: #333;
+            font-size: 1.1rem;
+            padding: 15px 30px;
+            width: 100%;
+            border: 2px solid #1e2a47; /* Dark blue border */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown select:focus {
+            outline: none;
+            border-color: #4c84ff;
+        }
+
+        .dropdown select:hover {
+            background-color: #f0f4f8; /* Light gray background on hover */
+        }
+
+        .dropdown label {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: #333;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .dropdown select:focus + label,
+        .dropdown select:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 15px;
+            font-size: 0.8rem;
+            color: #1e2a47;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Welcome to Blog FastAPI</h1>
+        <p>Our blog is a space where ideas come to life. Share your thoughts, explore engaging content, and join a community of like-minded individuals.</p>
+
+        <!-- Description of the service -->
+        <div class="description">
+            <h2>About Our Service</h2>
+            <p>FastAPI Blog is a modern platform for bloggers and readers alike. Write your posts, comment on others' ideas, and engage in meaningful discussions. We focus on speed, security, and ease of use to provide an excellent experience for all users.</p>
+        </div>
+
+        <!-- Button to navigate to the "Leave a Post" page with tooltip -->
+        <div class="btn-container">
+            <a href="#leave-feedback" class="btn">Leave a Feedback Post</a>
+            <div class="tooltip">
+                <strong>What can you submit?</strong><br>
+                🐞 Bug Report <br>
+                💡 Feature Suggestion <br>
+                👍 Work Feedback
+            </div>
+        </div>
+
+        <!-- Feedback form -->
+        <div id="leave-feedback" class="form-container">
+            <h2>Leave Your Feedback</h2>
+            <form action="/submit_feedback" method="POST">
+                <!-- Dropdown to select category -->
+                <div class="dropdown">
+                    <select name="feedback_type" id="feedback_type" required>
+                        <option value="" disabled selected>Select Feedback Type</option>
+                        <option value="bug_report">🐞 Bug Report</option>
+                        <option value="feature_suggestion">💡 Feature Suggestion</option>
+                        <option value="work_feedback">👍 Work Feedback</option>
+                    </select>
+                </div>
+
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="feedback" rows="4" placeholder="Your feedback or post" required></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

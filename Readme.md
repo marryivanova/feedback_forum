@@ -61,3 +61,95 @@ uvicorn src.app.main:app --host 0.0.0.0 --port 8000
 - FastAPI ([guide](https://fastapi.tiangolo.com/)): Фреймворк FastAPI, высокая производительность, легкость в изучении и т.д
 - SQLAlchemy ([guide](https://www.sqlalchemy.org/)): SQLAlchemy -> SQL.
 - Alembic ([guide](https://alembic.sqlalchemy.org/en/latest/index.html)): Для Миграций.
+
+Дополнительно по подключению к БД:
+
+Если вы развернули контейнер с PostgreSQL и хотите проверить, что база данных внутри работает правильно, можно выполнить несколько действий для проверки и тестирования.
+
+1. Подключение к PostgreSQL
+
+Чтобы проверить состояние базы данных и работать с ней, нужно подключиться к контейнеру и использовать утилиту psql (клиент для PostgreSQL), которая предустановлена в контейнере.
+
+Подключитесь к контейнеру (если вы не сделали этого раньше):
+
+```shell script
+sudo docker exec -it my_postgres_container bash
+```
+Здесь: `my_postgres_container` — это имя или ID вашего контейнера. Убедитесь, что используете правильное имя контейнера.
+
+Запустите psql (клиент для PostgreSQL), чтобы подключиться к базе данных PostgreSQL:
+
+```shell script
+psql -U postgres
+```
+
+Здесь:
+
+`-U postgres` — указывает, что вы подключаетесь как пользователь postgres. Важно, что при запуске контейнера вы задавали пароль для этого пользователя с помощью переменной окружения POSTGRES_PASSWORD.
+
+После подключения к PostgreSQL в командной строке вы попадете в интерактивную среду psql.
+```shell script
+psql (14.2)
+Type "help" for help.
+```
+2. Проверка списка баз данных
+
+Чтобы убедиться, что PostgreSQL работает и у вас есть хотя бы одна база данных, выполните команду для отображения списка баз данных:
+```shell script
+\l
+```
+Это покажет список всех баз данных в PostgreSQL.
+
+3. Проверка подключения и таблиц
+
+Вы можете проверить подключение к базе данных и список таблиц:
+
+Подключитесь к конкретной базе данных (например, к базе данных по умолчанию postgres): `\c postgres`
+
+Проверьте список таблиц: `\dt`
+
+Эта команда отобразит все таблицы в текущей базе данных. Если таблиц нет, то она выведет пустой список.
+
+Примерный итог: `postgres=# \dt`
+
+```shell script
+         List of relations
+ Schema | Name  | Type  |  Owner   
+--------+-------+-------+----------
+ public | posts | table | postgres
+ public | users | table | postgres
+ public | votes | table | postgres
+ 
+(3 rows)
+```
+Создание таблицы вручеую (на всякий):
+
+```sql
+-- Создание таблицы users
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    email VARCHAR NOT NULL UNIQUE,
+    password VARCHAR NOT NULL
+);
+
+-- Создание таблицы posts
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    title VARCHAR NOT NULL,
+    content VARCHAR NOT NULL,
+    published BOOLEAN NOT NULL DEFAULT TRUE,
+    owner_id INTEGER NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+-- Создание таблицы votes
+CREATE TABLE votes (
+    user_id INTEGER NOT NULL,
+    post_id INTEGER NOT NULL,
+    PRIMARY KEY (user_id, post_id),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE
+);
+```

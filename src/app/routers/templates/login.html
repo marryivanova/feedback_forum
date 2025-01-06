@@ -54,7 +54,7 @@
         }
 
         button {
-            width: 100%;
+            width: 105%;
             padding: 10px;
             background-color: #4c84ff; /* Синий кнопки */
             color: white;
@@ -83,6 +83,18 @@
         .form-footer a:hover {
             text-decoration: underline;
         }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -90,7 +102,7 @@
 
     <div class="login-container">
         <h1>Login</h1>
-        <form action="/v1/login/" method="POST">
+        <form id="login-form">
             <label for="username">Email:</label>
             <input type="text" id="username" name="username" required><br>
 
@@ -103,7 +115,55 @@
         <div class="form-footer">
             <p>Don't have an account? <a href="#">Sign up</a></p>
         </div>
+
+        <div id="message"></div>
     </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function (event) {
+    event.preventDefault(); //
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const data = new URLSearchParams();
+    data.append('username', username);
+    data.append('password', password);
+
+    try {
+        // Отправка запроса на бэкенд
+        const response = await fetch('http://localhost:8000/v1/login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            // Если успешный ответ, перенаправляем на страницу приветствия
+            window.location.href = "/v1/login/welcome_page";  // Перенаправление на страницу приветствия
+        } else {
+            // Если ошибка, показать сообщение об ошибке
+            document.getElementById('message').innerHTML = `
+                <div class="error-message">
+                    ${result.detail || 'Invalid credentials. Please try again.'}
+                </div>
+            `;
+        }
+    } catch (error) {
+        // Обработка ошибок
+        document.getElementById('message').innerHTML = `
+            <div class="error-message">
+                An error occurred. Please try again later.
+            </div>
+        `;
+        console.error('Error during login:', error);
+    }
+});
+    </script>
 
 </body>
 

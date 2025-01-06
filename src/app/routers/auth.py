@@ -1,6 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+import os
+
+from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+import logging
 
 from .. import schemas, models
 from ..database import get_db
@@ -11,7 +16,13 @@ from ...utils.verifyi import verify
 router = APIRouter(prefix="/v1/login", tags=["Authentication"])
 
 
-import logging
+template_dir = os.path.join(os.path.dirname(__file__), "templates")
+templates = Jinja2Templates(directory=template_dir)
+
+
+@router.get("/login_page", response_class=HTMLResponse)
+def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
 
 
 @router.post("/", response_model=schemas.Token)

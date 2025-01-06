@@ -1,5 +1,7 @@
+import logging
 from typing import List
 from fastapi import status, HTTPException, Depends, APIRouter
+from psycopg2.errorcodes import DATA_EXCEPTION
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
@@ -27,9 +29,24 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     hashed_password = hash_password(user.password)
     user.password = hashed_password
     new_user = models.User(**user.dict())
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+
+    try:
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+    except DATA_EXCEPTION:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User with this email already exists.",
+        )
+    except Exception as e:
+        db.rollback()
+        logging.error(f"Error creating user: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal Server Error",
+        )
 
     return new_user
 

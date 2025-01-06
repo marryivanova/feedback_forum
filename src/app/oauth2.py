@@ -45,6 +45,13 @@ def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    token = verify_access_token(token, credentials_exception)
-    user = db.query(models.User).filter(models.User.id == token.id).first()
+    token_data = verify_access_token(token, credentials_exception)
+
+    if not token_data or not hasattr(token_data, "id"):
+        raise credentials_exception
+
+    user = db.query(models.User).filter(models.User.id == token_data.id).first()
+    if user is None:
+        raise credentials_exception
+
     return user

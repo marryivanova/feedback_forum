@@ -1,13 +1,27 @@
+import os
 from typing import List, Optional
-from fastapi import Response, status, HTTPException, Depends, APIRouter
+from fastapi.templating import Jinja2Templates
+from fastapi import Response, status, HTTPException, Depends, APIRouter, Request
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+from starlette.responses import HTMLResponse
 
 from .. import schemas, oauth2, models
 from ..database import get_db
 from ..models import User
+from ..oauth2 import oauth2_scheme, verify_access_token, get_current_user
 
 router = APIRouter(prefix="/v1/posts", tags=["Posts"])
+
+template_dir = os.path.join(os.path.dirname(__file__), "templates")
+templates = Jinja2Templates(directory=template_dir)
+
+
+@router.get("/welcome_page", response_class=HTMLResponse)
+def welcome_page(
+    request: Request, current_user: schemas.User = Depends(get_current_user)
+):
+    return templates.TemplateResponse("welcome_page.html", {"request": request})
 
 
 @router.get("/", response_model=List[schemas.PostOut])

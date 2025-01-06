@@ -19,7 +19,6 @@ class InsufficientFundsException(Exception):
 
 
 class BankAccount:
-
     def __init__(self, balance: int = 0):
         self.balance = balance
 
