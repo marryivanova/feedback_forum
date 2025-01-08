@@ -153,3 +153,12 @@ CREATE TABLE votes (
     FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE
 );
 ```
+Запустить контейнер:
+- docker start my_postgres
+- docker exec -it my_postgres bash
+- sudo docker exec -it my_postgres bash
+- psql -U postgres
+
+Остановите и удалите контейнер:
+- docker stop my_postgres
+- docker rm my_postgres

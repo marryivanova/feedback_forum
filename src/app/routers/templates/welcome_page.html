@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Blog FastAPI</title>
     <style>
+        /* Ваши стили остаются без изменений */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f7f7f7;
@@ -145,7 +146,7 @@
             position: relative;
             display: inline-block;
             width: 100%;
-            margin-bottom: 20px; /* Поднимем выпадашку */
+            margin-bottom: 20px;
         }
 
         .dropdown select {
@@ -215,7 +216,7 @@
         <!-- Feedback form -->
         <div id="leave-feedback" class="form-container">
             <h2>Leave Your Feedback</h2>
-            <form action="/submit_feedback" method="POST">
+            <form action="/submit_feedback" method="POST" enctype="multipart/form-data">
                 <!-- Dropdown to select category -->
                 <div class="dropdown">
                     <select name="feedback_type" id="feedback_type" required>
@@ -229,10 +230,36 @@
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="email" name="email" placeholder="Your Email" required>
                 <textarea name="feedback" rows="4" placeholder="Your feedback or post" required></textarea>
+
+                <!-- Additional fields for bug report -->
+                <div id="bug-report-fields" style="display:none;">
+                    <input type="text" name="reproduction_steps" placeholder="Reproduction Steps" required>
+                    <input type="text" name="preconditions" placeholder="Preconditions" required>
+                    <input type="text" name="expected_result" placeholder="Expected Result" required>
+                    <input type="text" name="actual_result" placeholder="Actual Result" required>
+                </div>
+
+
+                <!-- Field for image upload -->
+                <input type="file" name="screenshot" accept="image/*">
+
                 <button type="submit">Submit Feedback</button>
             </form>
         </div>
     </div>
+
+    <script>
+        const feedbackTypeSelect = document.getElementById('feedback_type');
+        const bugReportFields = document.getElementById('bug-report-fields');
+
+        feedbackTypeSelect.addEventListener('change', function() {
+            if (this.value === 'bug_report') {
+                bugReportFields.style.display = 'block';
+            } else {
+                bugReportFields.style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 

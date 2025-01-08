@@ -57,7 +57,7 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    id: Optional[str]
+    id: int
     username: Optional[str]
 
 
