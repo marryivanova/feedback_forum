@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Blog FastAPI</title>
+    <title>Welcome to Blog Feedback</title>
     <style>
         /* Ваши стили остаются без изменений */
         body {
@@ -193,13 +193,13 @@
 <body>
 
     <div class="container">
-        <h1>Welcome to Blog FastAPI</h1>
+        <h1>Welcome to Blog Feedback</h1>
         <p>Our blog is a space where ideas come to life. Share your thoughts, explore engaging content, and join a community of like-minded individuals.</p>
 
         <!-- Description of the service -->
         <div class="description">
             <h2>About Our Service</h2>
-            <p>FastAPI Blog is a modern platform for bloggers and readers alike. Write your posts, comment on others' ideas, and engage in meaningful discussions. We focus on speed, security, and ease of use to provide an excellent experience for all users.</p>
+            <p>Feedback Blog is a modern platform for users and readers alike. Write your posts, comment on others' ideas, and engage in meaningful discussions. We focus on speed, security, and ease of use to provide an excellent experience for all users.</p>
         </div>
 
         <!-- Button to navigate to the "Leave a Post" page with tooltip -->
@@ -258,6 +258,16 @@
             } else {
                 bugReportFields.style.display = 'none';
             }
+        });
+
+        // Обработка отправки формы
+        feedbackForm.addEventListener('submit', function(event) {
+            event.preventDefault();  // Отменяем стандартное поведение отправки формы
+
+            // Здесь можно добавить код для отправки данных на сервер через fetch (если нужно)
+
+            // Перенаправление на thank-you страницу после отправки
+            window.location.href = 'http://localhost:8000/v1/posts/thank-you';
         });
     </script>
 

@@ -219,6 +219,7 @@
         }
     }
 
+    // Send login request
     document.getElementById('login-form').addEventListener('submit', async function (event) {
         event.preventDefault();
 
@@ -230,7 +231,6 @@
         data.append('password', password);
 
         try {
-            // Send the login request
             const response = await fetch('http://localhost:8000/v1/login/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -260,7 +260,7 @@
         }
     });
 
-    // Signup form submission handler
+    // Send signup request
     document.getElementById('signup-form').addEventListener('submit', async function(event) {
         event.preventDefault();
 
@@ -270,7 +270,6 @@
         const userData = { email, password };
 
         try {
-            // Send the signup request
             const response = await fetch('http://localhost:8000/v1/users/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -301,6 +300,37 @@
             console.error('Error during signup:', error);
         }
     });
+
+    // Function to fetch data with Authorization header
+    async function fetchWithAuth(url, options = {}) {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            options.headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${token}`
+            };
+        }
+        const response = await fetch(url, options);
+        return response;
+    }
+
+    // Example of fetching posts with authorization
+    async function getPosts() {
+        try {
+            const response = await fetchWithAuth('http://localhost:8000/v1/posts/welcome_page', {
+                method: 'GET'
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Posts:', data);
+            } else {
+                console.error('Error fetching posts:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    }
 </script>
 
 </body>

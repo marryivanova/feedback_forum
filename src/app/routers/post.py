@@ -18,16 +18,13 @@ templates = Jinja2Templates(directory=template_dir)
 
 
 @router.get("/welcome_page", response_class=HTMLResponse)
-def welcome_page(
-    request: Request,
-    current_user: schemas.User = Depends(get_current_user)
-):
-    if not current_user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated"
-        )
-    return templates.TemplateResponse("welcome_page.html", {"request": request, "user": current_user})
+def welcome_page(request: Request):
+    return templates.TemplateResponse("welcome_page.html", {"request": request})
+
+
+@router.get("/thank-you")
+def thank_you_page(request: Request):
+    return templates.TemplateResponse("thx.html", {"request": request})
 
 
 @router.get("/", response_model=List[schemas.PostOut])
