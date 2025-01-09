@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     jwt_secret_key: str
     jwt_algorithm: str
     jwt_access_token_expire_minutes: int = 60
+    jira_base_url: str
+    jira_api_token: str
+    jira_project_key: str
+    jira_email: str
 
     class Config:
         env_file = ".env"

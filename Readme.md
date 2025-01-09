@@ -141,6 +141,7 @@ CREATE TABLE posts (
     content VARCHAR NOT NULL,
     published BOOLEAN NOT NULL DEFAULT TRUE,
     owner_id INTEGER NOT NULL,
+    type post_type, -- Новая колонка для типа задачи
     FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE
 );
 

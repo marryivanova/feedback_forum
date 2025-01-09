@@ -27,6 +27,7 @@ class PostBase(BaseModel):
     title: str
     content: str
     published: bool = True
+    type: str
 
 
 class PostCreate(PostBase):

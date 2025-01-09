@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, text, TIMESTAMP, ForeignKey
+from sqlalchemy.dialects.mysql import ENUM
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -20,6 +21,13 @@ class Post(Base, EntityBase):
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
     owner = relationship("User")
+
+    # Поле type
+    type = Column(
+        ENUM("bug", "feature", "feedback", name="post_type"),
+        nullable=False,
+        server_default="feature",
+    )
 
 
 class User(Base, EntityBase):
