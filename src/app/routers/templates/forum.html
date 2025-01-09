@@ -5,77 +5,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Feedback Forum</title>
+    <!-- Подключение Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
+            background: linear-gradient(to right, #1d3c6a, #4c84ff); /* Добавлен градиентный фон */
+            color: #f4f4f4; /* Белый цвет для текста */
             font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7;
             margin: 0;
             padding: 0;
-            color: #333;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
         .container {
-            width: 80%;
-            max-width: 800px;
-            margin: 0 auto;
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
             padding: 20px;
-            background-color: #1e2a47;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            color: white;
-            transition: transform 0.3s ease;
+            background: #2a4a8d; /* Темно-синий фон */
+            border-radius: 16px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-out;
+            max-height: 85vh;
+            overflow-y: auto; /* Добавлен скролл */
         }
 
-        .container:hover {
-            transform: scale(1.02);
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             font-size: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            color: #fff;
+            animation: slideIn 1.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .feedback-item {
             background-color: #ffffff;
             color: #333;
-            padding: 15px;
+            padding: 20px;
             margin: 20px 0;
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: feedbackSlideIn 1s ease-out;
+            overflow: hidden;
+        }
+
+        @keyframes feedbackSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .feedback-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
         }
 
         .feedback-item h3 {
-            margin: 0;
+            color: #2a4a8d;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
 
         .feedback-item p {
             margin: 10px 0;
+            font-size: 1rem;
         }
 
         .vote-button {
-            background: linear-gradient(90deg, #4c84ff, #3869d9);
+            background: linear-gradient(90deg, #3869d9, #4c84ff);
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px 20px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             position: relative;
-            margin-right: 5px;
+            margin-right: 10px;
         }
 
         .vote-button:hover {
-            background: linear-gradient(90deg, #3869d9, #4c84ff);
-            transform: translateY(-2px);
+            background: linear-gradient(90deg, #4c84ff, #3869d9);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .vote-button:active {
+            transform: scale(0.95);
         }
 
         .tooltip {
@@ -84,7 +137,7 @@
             left: 110%;
             background-color: #ffffff;
             color: #333;
-            padding: 10px;
+            padding: 8px;
             border-radius: 5px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: none;
@@ -99,35 +152,38 @@
 
         .comment-section {
             margin-top: 20px;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
             cursor: pointer;
+            color: #2a4a8d;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .comment-section:hover {
+            color: #4c84ff;
         }
 
         .comment {
-            background-color: #f0f0f0;
-            padding: 10px;
+            background-color: #f9f9f9;
+            padding: 12px;
             border-radius: 5px;
-            margin: 5px 0;
+            margin: 8px 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease;
+            max-width: 100%;
+            word-wrap: break-word;
         }
 
         .comment:hover {
             transform: scale(1.02);
         }
 
-        .comment-content {
-            display: none;
-        }
-
         .comment-form {
-            margin-top: 10px;
+            margin-top: 20px;
             display: none;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            background-color: #f0f0f0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -136,51 +192,117 @@
             width: calc(100% - 20px);
             padding: 10px;
             margin: 10px 0;
-            border-radius: 4px;
+            border-radius: 5px;
             border: 1px solid #ccc;
             transition: border-color 0.3s ease;
         }
 
         .comment-form input:focus,
         .comment-form textarea:focus {
-            border-color: #4c84ff;
+            border-color: #2a4a8d;
             outline: none;
-            box-shadow: 0 0 5px rgba(76, 132, 255, 0.5);
+            box-shadow: 0 0 5px rgba(42, 74, 141, 0.3);
         }
 
         .comment-form button {
-            background: linear-gradient(90deg, #4c84ff, #3869d9);
+            background: linear-gradient(90deg, #3869d9, #4c84ff);
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px 20px;
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
         }
 
         .comment-form button:hover {
-            background: linear-gradient(90deg, #3869d9, #4c84ff);
+            background: linear-gradient(90deg, #4c84ff, #3869d9);
             transform: translateY(-2px);
         }
 
-        .comment-form button,
         .leave-comment-button {
-            margin-top: 10px;
-            display: block;
-        }
-
-        .leave-comment-button {
-            background-color: #4c84ff;
+            background-color: #3869d9;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px 20px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
         .leave-comment-button:hover {
+            background-color: #4c84ff;
+        }
+
+        /* Модальное окно */
+        .modal-content {
+            border-radius: 16px;
+        }
+
+        .modal-header {
             background-color: #3869d9;
+            color: white;
+        }
+
+        .modal-footer button {
+            background-color: #2a4a8d;
+        }
+
+        /* Кастомизированный скролл */
+        ::-webkit-scrollbar {
+            width: 8px;
+            background: #e0e0e0;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #4c84ff;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #3869d9;
+        }
+
+        /* Блок с комментариями */
+        .comment-content {
+            max-height: 300px; /* Ограничение высоты */
+            overflow-y: scroll;
+            padding: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .feedback-item h3 {
+                font-size: 1.6rem;
+            }
+
+            .vote-button {
+                padding: 10px 16px;
+                font-size: 1rem;
+            }
+
+            .comment-form input,
+            .comment-form textarea {
+                width: calc(100% - 20px);
+            }
+
+            .comment-form button {
+                padding: 10px 16px;
+            }
+
+            .leave-comment-button {
+                padding: 10px 16px;
+            }
         }
     </style>
 </head>
@@ -196,10 +318,12 @@
                 <h3>John Doe</h3>
                 <p><strong>Type:</strong> Bug Report</p>
                 <p>This is a description of the bug I encountered. It caused several issues...</p>
-                <button class="vote-button" onclick="vote(this, 'positive')">👍 <span class="vote-count">10</span>
+                <button class="vote-button" onclick="vote(this, 'positive')">
+                    <i class="bi bi-hand-thumbs-up"></i> 👍 <span class="vote-count">10</span>
                     <span class="tooltip">Click to upvote this feedback</span>
                 </button>
-                <button class="vote-button" onclick="vote(this, 'negative')">👎 <span class="negative-count">2</span>
+                <button class="vote-button" onclick="vote(this, 'negative')">
+                    <i class="bi bi-hand-thumbs-down"></i> 👎 <span class="negative-count">2</span>
                     <span class="tooltip">Click to downvote this feedback</span>
                 </button>
 
@@ -213,73 +337,45 @@
                     <textarea rows="2" placeholder="Your comment..." required></textarea>
                     <button onclick="addComment(this)">Add Comment</button>
                 </div>
-                <button class="leave-comment-button" onclick="toggleCommentForm(this)">Leave a Comment</button>
-            </div>
-
-            <div class="feedback-item">
-                <h3>Jane Smith</h3>
-                <p><strong>Type:</strong> Feature Suggestion</p>
-                <p>I think it would be great to have a dark mode option in the app...</p>
-                <button class="vote-button" onclick="vote(this, 'positive')">👍 <span class="vote-count">5</span>
-                    <span class="tooltip">Click to upvote this feedback</span>
+                <button class="leave-comment-button" onclick="toggleCommentForm(this)">
+                    Leave a Comment <i class="bi bi-chat-left-text"></i>
                 </button>
-                <button class="vote-button" onclick="vote(this, 'negative')">👎 <span class="negative-count">1</span>
-                    <span class="tooltip">Click to downvote this feedback</span>
-                </button>
-
-                <div class="comment-section" onclick="toggleComments(this)">
-                    <h4>Comments:</h4>
-                    <div class="comment-content"></div>
-                    <span>Show Comments</span>
-                </div>
-                <div class="comment-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <textarea rows="2" placeholder="Your comment..." required></textarea>
-                    <button onclick="addComment(this)">Add Comment</button>
-                </div>
-                <button class="leave-comment-button" onclick="toggleCommentForm(this)">Leave a Comment</button>
             </div>
         </div>
     </div>
 
     <script>
-        function toggleComments(element) {
-            const comments = element.querySelector('.comment-content');
-            const buttonText = element.querySelector('span');
-            if (comments.style.display === 'none' || comments.style.display === '') {
-                comments.style.display = 'block';
-                buttonText.textContent = 'Hide Comments';
-            } else {
-                comments.style.display = 'none';
-                buttonText.textContent = 'Show Comments';
-            }
+        function toggleComments(section) {
+            const commentContent = section.querySelector('.comment-content');
+            const isVisible = commentContent.style.display === 'block';
+            commentContent.style.display = isVisible ? 'none' : 'block';
+            section.querySelector('span').textContent = isVisible ? 'Show Comments' : 'Hide Comments';
         }
 
         function toggleCommentForm(button) {
-            const commentForm = button.previousElementSibling;
-            commentForm.style.display = commentForm.style.display === 'block' ? 'none' : 'block';
+            const form = button.previousElementSibling;
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
         }
 
         function vote(button, type) {
-            const voteCountSpan = type === 'positive' ? button.querySelector('.vote-count') : button.querySelector('.negative-count');
-            const currentCount = parseInt(voteCountSpan.textContent);
-            voteCountSpan.textContent = currentCount + 1;
+            const countSpan = button.querySelector(type === 'positive' ? '.vote-count' : '.negative-count');
+            countSpan.textContent = parseInt(countSpan.textContent) + 1;
         }
 
         function addComment(button) {
-            const commentForm = button.parentElement;
-            const name = commentForm.querySelector('input').value;
-            const commentText = commentForm.querySelector('textarea').value;
+            const form = button.closest('.comment-form');
+            const name = form.querySelector('input').value;
+            const commentText = form.querySelector('textarea').value;
 
             if (name && commentText) {
-                const feedbackItem = button.closest('.feedback-item');
-                const commentContent = feedbackItem.querySelector('.comment-content');
-                const newComment = document.createElement('div');
-                newComment.className = 'comment';
-                newComment.textContent = `${name}: ${commentText}`;
-                commentContent.appendChild(newComment);
-                commentForm.reset();
-                toggleCommentForm(button); // Hide form after submission
+                const commentSection = form.closest('.feedback-item').querySelector('.comment-content');
+                const commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+                commentDiv.textContent = `${name}: ${commentText}`;
+                commentSection.appendChild(commentDiv);
+
+                form.querySelector('input').value = '';
+                form.querySelector('textarea').value = '';
             }
         }
     </script>
