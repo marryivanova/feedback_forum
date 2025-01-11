@@ -1,11 +1,18 @@
-from fastapi import status, Depends, APIRouter, HTTPException
+import os
+
+from fastapi import status, Depends, APIRouter, HTTPException, Request
 from sqlalchemy.orm import Session
+from starlette.responses import HTMLResponse
+from starlette.templating import Jinja2Templates
 
 from .. import oauth2, schemas, models
 from ..database import get_db
 from ..models import User
 
 router = APIRouter(prefix="/v1/vote", tags=["Vote"])
+
+template_dir = os.path.join(os.path.dirname(__file__), "templates")
+templates = Jinja2Templates(directory=template_dir)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
@@ -43,3 +50,8 @@ def vote_post(
         vote_query.delete(synchronize_session=False)
         db.commit()
         return {"message": "Successfully deleted vote"}
+
+
+@router.get("/feedback/forum", response_class=HTMLResponse)
+def feedback_page(request: Request):
+    return templates.TemplateResponse("forum.html", {"request": request})

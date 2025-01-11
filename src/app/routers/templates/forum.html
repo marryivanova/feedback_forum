@@ -8,10 +8,11 @@
     <!-- Подключение Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to right, #1d3c6a, #4c84ff); /* Добавлен градиентный фон */
-            color: #f4f4f4; /* Белый цвет для текста */
+            background: linear-gradient(to right, #1d3c6a, #4c84ff);
+            color: #f4f4f4;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -27,24 +28,11 @@
             max-width: 900px;
             margin: 40px auto;
             padding: 20px;
-            background: #2a4a8d; /* Темно-синий фон */
+            background: #2a4a8d;
             border-radius: 16px;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1.5s ease-out;
             max-height: 85vh;
-            overflow-y: auto; /* Добавлен скролл */
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            overflow-y: auto;
         }
 
         h1 {
@@ -53,19 +41,6 @@
             font-size: 2.5rem;
             font-weight: 600;
             color: #fff;
-            animation: slideIn 1.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .feedback-item {
@@ -77,77 +52,11 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: feedbackSlideIn 1s ease-out;
-            overflow: hidden;
-        }
-
-        @keyframes feedbackSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-100px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .feedback-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
-        }
-
-        .feedback-item h3 {
-            color: #2a4a8d;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .feedback-item p {
-            margin: 10px 0;
-            font-size: 1rem;
-        }
-
-        .vote-button {
-            background: linear-gradient(90deg, #3869d9, #4c84ff);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            position: relative;
-            margin-right: 10px;
-        }
-
-        .vote-button:hover {
-            background: linear-gradient(90deg, #4c84ff, #3869d9);
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .vote-button:active {
-            transform: scale(0.95);
-        }
-
-        .tooltip {
-            position: absolute;
-            top: -5px;
-            left: 110%;
-            background-color: #ffffff;
-            color: #333;
-            padding: 8px;
-            border-radius: 5px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            display: none;
-            z-index: 1;
-            width: 200px;
-            border: 1px solid #ccc;
-        }
-
-        .vote-button:hover .tooltip {
-            display: block;
         }
 
         .comment-section {
@@ -181,7 +90,7 @@
             margin-top: 20px;
             display: none;
             padding: 12px;
-            border: 1px solid #ccc;
+            border: 1px solid #3869d9;
             border-radius: 5px;
             background-color: #f0f0f0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -193,13 +102,13 @@
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #3869d9;
             transition: border-color 0.3s ease;
         }
 
         .comment-form input:focus,
         .comment-form textarea:focus {
-            border-color: #2a4a8d;
+            border-color: #4c84ff;
             outline: none;
             box-shadow: 0 0 5px rgba(42, 74, 141, 0.3);
         }
@@ -233,77 +142,199 @@
             background-color: #4c84ff;
         }
 
-        /* Модальное окно */
-        .modal-content {
-            border-radius: 16px;
+        .feedback-item.popular {
+            background-color: #d1e7ff; /* Подсветка популярных отзывов (светло-синий) */
         }
 
-        .modal-header {
-            background-color: #3869d9;
-            color: white;
-        }
-
-        .modal-footer button {
-            background-color: #2a4a8d;
-        }
-
-        /* Кастомизированный скролл */
-        ::-webkit-scrollbar {
-            width: 8px;
-            background: #e0e0e0;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: #4c84ff;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: #3869d9;
-        }
-
-        /* Блок с комментариями */
         .comment-content {
-            max-height: 300px; /* Ограничение высоты */
+            max-height: 300px;
             overflow-y: scroll;
             padding: 10px;
             margin-top: 10px;
             border-top: 1px solid #ccc;
         }
 
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .feedback-item h3 {
-                font-size: 1.6rem;
-            }
-
-            .vote-button {
-                padding: 10px 16px;
-                font-size: 1rem;
-            }
-
-            .comment-form input,
-            .comment-form textarea {
-                width: calc(100% - 20px);
-            }
-
-            .comment-form button {
-                padding: 10px 16px;
-            }
-
-            .leave-comment-button {
-                padding: 10px 16px;
-            }
+        .comment-content .comment {
+            padding-left: 20px;
+            background-color: #e7f1ff;
         }
+        /* Современный кастомный скролл */
+.container {
+    max-height: 85vh; /* Чтобы контейнер имел максимальную высоту и был прокручиваемым */
+    overflow-y: auto; /* Позволяет прокручивать контент */
+}
+
+/* Настройка внешнего вида скроллбара */
+.container::-webkit-scrollbar {
+    width: 12px; /* Ширина скроллбара */
+}
+
+/* Стили для track (полосы скролла) */
+.container::-webkit-scrollbar-track {
+    background: #e0e0e0; /* Цвет фона полосы */
+    border-radius: 8px; /* Слегка скругленные углы */
+}
+
+/* Стили для thumb (ползунка скролла) */
+.container::-webkit-scrollbar-thumb {
+    background: #3869d9; /* Синий цвет для ползунка */
+    border-radius: 8px; /* Округленные углы ползунка */
+    transition: background-color 0.3s ease;
+}
+
+/* Стили для hover ползунка */
+.container::-webkit-scrollbar-thumb:hover {
+    background: #4c84ff; /* Цвет ползунка при наведении */
+}
+
+        /* Современный кастомный скролл */
+        .comment-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .comment-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .comment-content::-webkit-scrollbar-thumb {
+            background: #3869d9;
+            border-radius: 5px;
+        }
+
+        .comment-content::-webkit-scrollbar-thumb:hover {
+            background: #4c84ff;
+        }
+
+        /* Стили для кнопок лайков и дизлайков (иконки) */
+.like-dislike-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.like-dislike-buttons .like,
+.like-dislike-buttons .dislike {
+    font-size: 20px;
+    cursor: pointer;
+    color: #999; /* Мягкий серый цвет для нейтрального состояния */
+    transition: color 0.3s ease, transform 0.3s ease;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.like-dislike-buttons .like:hover,
+.like-dislike-buttons .dislike:hover {
+    color: #4c84ff; /* Плавное изменение цвета при наведении */
+    transform: scale(1.2); /* Легкое увеличение иконки при наведении */
+}
+
+/* Стили для кнопок оценки в отзывах */
+.vote-button {
+    background-color: #f0f0f0;
+    color: #4c84ff;
+    font-weight: bold;
+    border: 1px solid #4c84ff;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.vote-button:hover {
+    background-color: #4c84ff;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.vote-button.voted {
+    background-color: #b6d7a8; /* Светлый зеленый для положительного голосования */
+    color: white;
+}
+
+.vote-button.voted.btn-danger {
+    background-color: #ffcccb; /* Светлый красный для отрицательного голосования */
+}
+
+/* Стили для кнопок "Оставить комментарий" */
+.leave-comment-button {
+    background-color: #f0f0f0;
+    color: #4c84ff;
+    font-weight: bold;
+    border: 1px solid #4c84ff;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.leave-comment-button:hover {
+    background-color: #4c84ff;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Стили для кнопки "Добавить комментарий" */
+.comment-form button {
+    background: linear-gradient(90deg, #3869d9, #4c84ff);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.comment-form button:hover {
+    background: linear-gradient(90deg, #4c84ff, #3869d9);
+    transform: translateY(-2px);
+}
+
+.comment-form input,
+.comment-form textarea {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 10px 16px;
+    width: 100%;
+    margin-bottom: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+    border-color: #4c84ff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(42, 74, 141, 0.2);
+}
+
+/* Стили для кнопок в комментариях */
+.comment .like-dislike-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.comment .like,
+.comment .dislike {
+    font-size: 18px;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.comment .like:hover,
+.comment .dislike:hover {
+    color: #4c84ff;
+    transform: scale(1.1);
+}
+
+.comment .like.liked {
+    color: #ff4081; /* Цвет для лайка */
+}
+
+.comment .dislike.disliked {
+    color: #f44336; /* Цвет для дизлайка */
+}
+
     </style>
 </head>
 
@@ -314,20 +345,22 @@
 
         <!-- Feedback List -->
         <div id="feedback-list">
-            <div class="feedback-item">
-                <h3>John Doe</h3>
-                <p><strong>Type:</strong> Bug Report</p>
-                <p>This is a description of the bug I encountered. It caused several issues...</p>
-                <button class="vote-button" onclick="vote(this, 'positive')">
-                    <i class="bi bi-hand-thumbs-up"></i> 👍 <span class="vote-count">10</span>
-                    <span class="tooltip">Click to upvote this feedback</span>
-                </button>
-                <button class="vote-button" onclick="vote(this, 'negative')">
-                    <i class="bi bi-hand-thumbs-down"></i> 👎 <span class="negative-count">2</span>
-                    <span class="tooltip">Click to downvote this feedback</span>
-                </button>
-
-                <div class="comment-section" onclick="toggleComments(this)">
+            <!-- Пример 1 -->
+            <div class="feedback-item row mb-4" data-likes="12" data-dislikes="2">
+                <div class="col-12">
+                    <h3>John Doe</h3>
+                    <p><strong>Type:</strong> Bug Report</p>
+                    <p>This is a description of the bug I encountered. It caused several issues...</p>
+                </div>
+                <div class="col-md-6 d-flex justify-content-start">
+                    <button class="vote-button btn btn-primary" onclick="vote(this, 'positive')">👍 <span class="vote-count">12</span></button>
+                    <button class="vote-button btn btn-danger ms-2" onclick="vote(this, 'negative')">👎 <span class="negative-count">2</span></button>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="leave-comment-button btn btn-info" onclick="toggleCommentForm(this)">Leave a Comment</button>
+                </div>
+                <!-- Комментарии -->
+                <div class="comment-section">
                     <h4>Comments:</h4>
                     <div class="comment-content"></div>
                     <span>Show Comments</span>
@@ -337,49 +370,136 @@
                     <textarea rows="2" placeholder="Your comment..." required></textarea>
                     <button onclick="addComment(this)">Add Comment</button>
                 </div>
-                <button class="leave-comment-button" onclick="toggleCommentForm(this)">
-                    Leave a Comment <i class="bi bi-chat-left-text"></i>
-                </button>
+            </div>
+
+            <!-- Пример 2 -->
+            <div class="feedback-item row mb-4" data-likes="5" data-dislikes="1">
+                <div class="col-12">
+                    <h3>Jane Smith</h3>
+                    <p><strong>Type:</strong> Feature Request</p>
+                    <p>I would love to see an option to customize the notifications...</p>
+                </div>
+                <div class="col-md-6 d-flex justify-content-start">
+                    <button class="vote-button btn btn-primary" onclick="vote(this, 'positive')">👍 <span class="vote-count">5</span></button>
+                    <button class="vote-button btn btn-danger ms-2" onclick="vote(this, 'negative')">👎 <span class="negative-count">1</span></button>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="leave-comment-button btn btn-info" onclick="toggleCommentForm(this)">Leave a Comment</button>
+                </div>
+                <!-- Комментарии -->
+                <div class="comment-section">
+                    <h4>Comments:</h4>
+                    <div class="comment-content"></div>
+                    <span>Show Comments</span>
+                </div>
+                <div class="comment-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <textarea rows="2" placeholder="Your comment..." required></textarea>
+                    <button onclick="addComment(this)">Add Comment</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        function toggleComments(section) {
-            const commentContent = section.querySelector('.comment-content');
-            const isVisible = commentContent.style.display === 'block';
-            commentContent.style.display = isVisible ? 'none' : 'block';
-            section.querySelector('span').textContent = isVisible ? 'Show Comments' : 'Hide Comments';
-        }
-
         function toggleCommentForm(button) {
-            const form = button.previousElementSibling;
+            const form = button.closest('.feedback-item').querySelector('.comment-form');
             form.style.display = form.style.display === 'block' ? 'none' : 'block';
         }
-
         function vote(button, type) {
-            const countSpan = button.querySelector(type === 'positive' ? '.vote-count' : '.negative-count');
-            countSpan.textContent = parseInt(countSpan.textContent) + 1;
+            const feedbackItem = button.closest('.feedback-item');
+            const voteCountElement = feedbackItem.querySelector('.vote-count');
+            const negativeCountElement = feedbackItem.querySelector('.negative-count');
+
+            // Логика для кнопки "👍" (positive)
+            if (type === 'positive') {
+                if (!button.classList.contains('voted')) {
+                    button.classList.add('voted');
+                    button.style.backgroundColor = '#b6d7a8';
+                    button.style.color = 'white';
+                    voteCountElement.textContent = parseInt(voteCountElement.textContent) + 1;
+                } else {
+                    button.classList.remove('voted');
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+                    voteCountElement.textContent = parseInt(voteCountElement.textContent) - 1;
+                }
+
+                const negativeButton = feedbackItem.querySelector('.btn-danger');
+                if (negativeButton.classList.contains('voted')) {
+                    negativeButton.classList.remove('voted');
+                    negativeButton.style.backgroundColor = '';
+                    negativeButton.style.color = '';
+                    negativeCountElement.textContent = parseInt(negativeCountElement.textContent) - 1;
+                }
+            }
+
+            // Логика для кнопки "👎" (negative)
+            if (type === 'negative') {
+                if (!button.classList.contains('voted')) {
+                    button.classList.add('voted');
+                    button.style.backgroundColor = '#ead1dc';
+                    button.style.color = 'white';
+                    negativeCountElement.textContent = parseInt(negativeCountElement.textContent) + 1;
+                } else {
+                    button.classList.remove('voted');
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+                    negativeCountElement.textContent = parseInt(negativeCountElement.textContent) - 1;
+                }
+
+                const positiveButton = feedbackItem.querySelector('.btn-primary');
+                if (positiveButton.classList.contains('voted')) {
+                    positiveButton.classList.remove('voted');
+                    positiveButton.style.backgroundColor = '';
+                    positiveButton.style.color = '';
+                    voteCountElement.textContent = parseInt(voteCountElement.textContent) - 1;
+                }
+            }
         }
 
         function addComment(button) {
-            const form = button.closest('.comment-form');
-            const name = form.querySelector('input').value;
-            const commentText = form.querySelector('textarea').value;
+            const feedbackItem = button.closest('.feedback-item');
+            const name = feedbackItem.querySelector('.comment-form input').value;
+            const commentText = feedbackItem.querySelector('.comment-form textarea').value;
 
             if (name && commentText) {
-                const commentSection = form.closest('.feedback-item').querySelector('.comment-content');
-                const commentDiv = document.createElement('div');
-                commentDiv.classList.add('comment');
-                commentDiv.textContent = `${name}: ${commentText}`;
-                commentSection.appendChild(commentDiv);
+                const comment = document.createElement('div');
+                comment.classList.add('comment');
+                comment.innerHTML = `<strong>${name}</strong>: ${commentText}
+                                     <div class="like-dislike-buttons">
+                                        <i class="fas fa-heart like" onclick="commentVote(this, 'positive')"></i>
+                                        <i class="fas fa-heart-broken dislike" onclick="commentVote(this, 'negative')"></i>
+                                     </div>`;
+                feedbackItem.querySelector('.comment-content').appendChild(comment);
 
-                form.querySelector('input').value = '';
-                form.querySelector('textarea').value = '';
+                // Reset the form
+                feedbackItem.querySelector('.comment-form input').value = '';
+                feedbackItem.querySelector('.comment-form textarea').value = '';
+            }
+        }
+
+        function commentVote(button, type) {
+            const comment = button.closest('.comment');
+            const icon = button;
+
+            if (type === 'positive') {
+                icon.classList.toggle('liked');
+                if (icon.classList.contains('liked')) {
+                    icon.style.color = '#ff4081';
+                } else {
+                    icon.style.color = '';
+                }
+            } else {
+                icon.classList.toggle('disliked');
+                if (icon.classList.contains('disliked')) {
+                    icon.style.color = '#f44336';
+                } else {
+                    icon.style.color = '';
+                }
             }
         }
     </script>
-
 </body>
 
 </html>

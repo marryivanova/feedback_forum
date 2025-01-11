@@ -125,63 +125,66 @@
             background-color: #3869d9;
         }
 
-        .dropdown label {
+        /* Стиль для переключателя */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-left: 10px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
             position: absolute;
-            top: -10px;
-            left: 10px;
-            font-size: 1rem;
-            color: #333;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
         }
 
-        /* Подсказка для кнопки */
-        .tooltip {
+        .slider:before {
             position: absolute;
-            top: 50%;
-            left: 100%;
-            transform: translateY(-50%);
-            background-color: #fff;
-            color: #333;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: none;
-            font-size: 0.9rem;
-            width: 220px;
-            text-align: left;
+            content: "";
+            height: 26px;
+            width: 26px;
+            border-radius: 50%;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
         }
 
-        .tooltip:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -10px;
-            transform: translateY(-50%);
-            border-width: 10px;
-            border-style: solid;
-            border-color: transparent #fff transparent transparent;
-        }
-
-        .btn-container:hover .tooltip {
-            display: block;
-        }
-
-        /* Модальное окно с подтверждением */
-        .modal-content {
+        input:checked + .slider {
             background-color: #4c84ff;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .modal-header,
-        .modal-footer {
-            border: none;
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
 
-        .modal-body {
-            padding: 20px 0;
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Новый стиль для выделения текста */
+        .switch-label {
+            color: black;  /* Черный цвет для контраста */
+            font-weight: bold;
+            margin-right: 10px;
+            background-color: white; /* Белый фон для выделения */
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Легкая тень для улучшения видимости */
         }
     </style>
 </head>
@@ -189,24 +192,27 @@
 <body>
 
     <div class="container">
-        <h1>Welcome to Blog Feedback</h1>
-        <p>Our blog is a space where ideas come to life. Share your thoughts, explore engaging content, and join a community of like-minded individuals.</p>
+        <h1>Welcome to Forum Feedback</h1>
+        <p>Our forum is a space where ideas come to life. Share your thoughts, explore engaging content, and join a community of like-minded individuals.</p>
 
         <!-- Кнопка с подсказкой для перехода к форме -->
         <div class="btn-container">
-            <a href="#leave-feedback" class="btn-custom">Leave a Feedback Post</a>
-            <div class="tooltip">
-                <strong>What can you submit?</strong><br>
-                🐞 Bug Report <br>
-                💡 Feature Suggestion <br>
-                👍 Work Feedback
-            </div>
+            <a href="#" class="btn-custom" id="redirect-btn">Go to the feedback forum website</a>
         </div>
 
         <!-- Форма обратной связи -->
         <div id="leave-feedback" class="form-container">
             <h2>Leave Your Feedback</h2>
-            <form action="/submit_feedback" method="POST" enctype="multipart/form-data">
+            <form id="feedback-form" action="/submit_feedback" method="POST" enctype="multipart/form-data">
+                <!-- Переключатель для получения уведомлений -->
+                <div class="form-group d-flex align-items-center">
+                    <label for="notifications" class="switch-label">Make the post visible</label>
+                    <label class="switch">
+                        <input type="checkbox" id="notifications" name="notifications">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
                 <!-- Выбор типа отзыва -->
                 <div class="form-group">
                     <select name="feedback_type" id="feedback_type" class="form-control" required>
@@ -254,7 +260,7 @@
                 </div>
 
                 <!-- Кнопка отправки -->
-                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                <button type="button" class="btn btn-primary" id="submit-btn">Submit Feedback</button>
             </form>
         </div>
     </div>
@@ -273,6 +279,22 @@
             } else {
                 bugReportFields.style.display = 'none';
             }
+        });
+
+        // Перенаправление на страницу благодарности после клика по кнопке
+        document.getElementById('submit-btn').addEventListener('click', function (event) {
+            event.preventDefault();  // Останавливаем стандартную отправку формы
+
+            // Перенаправление на страницу благодарности
+            window.location.href = "/v1/posts/thank-you";
+        });
+
+        // Перенаправление на страницу форума при клике на кнопку
+        document.getElementById('redirect-btn').addEventListener('click', function (event) {
+            event.preventDefault();  // Останавливаем стандартное поведение (переход по ссылке)
+
+        // Перенаправляем на нужную страницу
+            window.location.href = "/v1/vote/feedback/forum";  // Перенаправляем на страницу форума
         });
     </script>
 
