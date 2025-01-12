@@ -154,6 +154,22 @@
             border-top: 1px solid #ccc;
         }
 
+        /* Стили для прокрутки внутри блока с комментариями */
+        .comment-content::-webkit-scrollbar {
+            width: 10px; /* Ширина скроллбара */
+        }
+
+        .comment-content::-webkit-scrollbar-track {
+            background-color: #f0f0f0; /* Цвет фона скроллбара */
+            border-radius: 5px; /* Скругление углов */
+        }
+
+        .comment-content::-webkit-scrollbar-thumb {
+            background-color: #3869d9; /* Синий цвет для ползунка */
+            border-radius: 5px; /* Скругление углов ползунка */
+            transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+        }
+
         .comment-content .comment {
             padding-left: 20px;
             background-color: #e7f1ff;
@@ -236,6 +252,78 @@
         .comment .dislike.disliked {
             color: #f44336;
         }
+
+        /* Добавление теней */
+        .feedback-item,
+        .comment {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Кнопки редактирования и удаления */
+        .comment-actions button {
+            background-color: transparent;
+            border: 2px solid #e7a1a1; /* Нежный красный для удаления */
+            color: #e7a1a1; /* Нежный красный */
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .comment-actions button:hover {
+            background-color: #e7a1a1;
+            color: white;
+            transform: translateY(-2px); /* Плавное поднятие */
+        }
+
+        .comment-actions .edit-btn {
+            border-color: #4e88d1; /* Мягкий синий для редактирования */
+            color: #4e88d1;
+        }
+
+        .comment-actions .edit-btn:hover {
+            background-color: #4e88d1;
+            color: white;
+        }
+
+        .comment-actions .delete-btn {
+            border-color: #e7a1a1; /* Нежный красный */
+            color: #e7a1a1;
+        }
+
+        .comment-actions .delete-btn:hover {
+            background-color: #e7a1a1;
+            color: white;
+        }
+
+        /* Мобильная адаптивность */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                max-width: 100%;
+            }
+
+            .feedback-item {
+                padding: 15px;
+                margin: 10px 0;
+            }
+
+            .comment-form {
+                padding: 10px;
+            }
+
+            .vote-button {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+
+            .leave-comment-button {
+                font-size: 14px;
+                padding: 8px 14px;
+            }
+        }
     </style>
 </head>
 
@@ -251,7 +339,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             fetchPosts();
         });
 
@@ -267,8 +355,8 @@
 
                 // Запрос на сервер для получения данных
                 const response = await fetch('http://0.0.0.0:8000/v1/posts/', {
-                        method: 'GET',
-                        headers: headers
+                    method: 'GET',
+                    headers: headers
                 });
                 const posts = await response.json();
 
@@ -385,11 +473,17 @@
             if (name && commentText) {
                 const comment = document.createElement('div');
                 comment.classList.add('comment');
-                comment.innerHTML = `<strong>${name}</strong>: ${commentText}
-                                     <div class="like-dislike-buttons">
-                                        <i class="fas fa-heart like" onclick="commentVote(this, 'positive')"></i>
-                                        <i class="fas fa-heart-broken dislike" onclick="commentVote(this, 'negative')"></i>
-                                     </div>`;
+                comment.innerHTML = `
+                    <strong>${name}</strong>: ${commentText}
+                    <div class="like-dislike-buttons">
+                        <i class="fas fa-heart like" onclick="commentVote(this, 'positive')"></i>
+                        <i class="fas fa-heart-broken dislike" onclick="commentVote(this, 'negative')"></i>
+                    </div>
+                    <div class="comment-actions">
+                        <button class="edit-btn" onclick="editComment(this)">Edit</button>
+                        <button class="delete-btn" onclick="deleteComment(this)">Delete</button>
+                    </div>
+                `;
                 feedbackItem.querySelector('.comment-content').appendChild(comment);
 
                 // Очистить форму
@@ -398,28 +492,39 @@
             }
         }
 
-        // Голосование для комментариев
+        // Редактирование комментария
+        function editComment(button) {
+            const comment = button.closest('.comment');
+            const commentText = comment.querySelector('strong').nextSibling.textContent.trim();
+            const feedbackItem = button.closest('.feedback-item');
+
+            const form = feedbackItem.querySelector('.comment-form');
+            form.querySelector('textarea').value = commentText;
+
+            // Удаляем текущий комментарий
+            comment.remove();
+
+            // Добавляем флаг редактирования
+            form.querySelector('button').textContent = 'Save Changes';
+        }
+
+        // Удаление комментария
+        function deleteComment(button) {
+            const comment = button.closest('.comment');
+            comment.remove();
+        }
+
+        // Голосование за комментарий
         function commentVote(button, type) {
             const comment = button.closest('.comment');
-            const icon = button;
-
             if (type === 'positive') {
-                icon.classList.toggle('liked');
-                if (icon.classList.contains('liked')) {
-                    icon.style.color = '#ff4081';
-                } else {
-                    icon.style.color = '';
-                }
+                button.classList.toggle('liked');
             } else {
-                icon.classList.toggle('disliked');
-                if (icon.classList.contains('disliked')) {
-                    icon.style.color = '#f44336';
-                } else {
-                    icon.style.color = '';
-                }
+                button.classList.toggle('disliked');
             }
         }
     </script>
+
 </body>
 
 </html>
