@@ -168,3 +168,70 @@ def check_if_exists(post, post_id):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Post with {post_id} id was not found",
         )
+
+
+@router.get("/{post_id}/comments", response_model=List[schemas.CommentOut])
+def get_comments(
+    post_id: int,
+    db: Session = Depends(get_db),
+):
+    comments = db.query(models.Comment).filter(models.Comment.post_id == post_id).all()
+    return comments
+
+
+@router.post("/{post_id}/comments", response_model=schemas.Comment)
+def create_comment(
+    post_id: int,
+    comment: schemas.CommentCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(oauth2.get_current_user),
+):
+    post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    if post is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Post with id {post_id} was not found",
+        )
+
+    new_comment = models.Comment(
+        post_id=post_id,
+        user_id=current_user.id,
+        content=comment.content,
+    )
+
+    db.add(new_comment)
+    db.commit()
+    db.refresh(new_comment)
+
+    return new_comment
+
+
+@router.delete("/{post_id}/comments", status_code=status.HTTP_204_NO_CONTENT)
+def delete_comment(
+    post_id: int,
+    comment_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(oauth2.get_current_user),
+):
+    comment = (
+        db.query(models.Comment)
+        .filter(models.Comment.post_id == post_id, models.Comment.id == comment_id)
+        .first()
+    )
+
+    if comment is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Comment with id {comment_id} not found in post with id {post_id}",
+        )
+
+    if comment.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to perform requested action",
+        )
+
+    db.delete(comment)
+    db.commit()
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

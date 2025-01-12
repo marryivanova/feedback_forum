@@ -113,14 +113,14 @@ Type "help" for help.
 Примерный итог: `postgres=# \dt`
 
 ```shell script
-         List of relations
- Schema | Name  | Type  |  Owner   
---------+-------+-------+----------
- public | posts | table | postgres
- public | users | table | postgres
- public | votes | table | postgres
- 
-(3 rows)
+          List of relations
+ Schema |   Name   | Type  |  Owner   
+--------+----------+-------+----------
+ public | comments | table | postgres
+ public | posts    | table | postgres
+ public | users    | table | postgres
+ public | votes    | table | postgres
+(4 rows)
 ```
 Создание таблицы вручеую (на всякий):
 
@@ -153,6 +153,16 @@ CREATE TABLE votes (
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS comments (
+    id SERIAL PRIMARY KEY,
+    content TEXT NOT NULL,
+    post_id INTEGER,
+    user_id INTEGER,
+    FOREIGN KEY (post_id) REFERENCES posts(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 ```
 Запустить контейнер:
 - docker start my_postgres
