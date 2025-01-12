@@ -28,6 +28,7 @@ class PostBase(BaseModel):
     content: str
     published: bool = True
     type: str
+    image_url: Optional[str] = None
 
 
 class PostCreate(PostBase):
@@ -39,6 +40,7 @@ class Post(PostBase):
     created_at: datetime
     owner_id: int
     owner: User
+    type: Optional[str] = None
 
     class Config:
         orm_mode = True

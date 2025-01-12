@@ -1,6 +1,12 @@
+import os
+
 from fastapi import FastAPI
+from starlette.staticfiles import StaticFiles
+
 from .routers import post, user, root, auth, vote, jira
 from fastapi.middleware.cors import CORSMiddleware
+
+from .routers.post import UPLOAD_DIR
 
 title = "Blog FastAPI for feedback"
 description = f"""
@@ -51,6 +57,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 app.include_router(root.router)
 app.include_router(auth.router)

@@ -21,6 +21,7 @@ class Post(Base, EntityBase):
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
     owner = relationship("User")
+    image_url = Column(String, nullable=True)
 
     # Поле type
     type = Column(

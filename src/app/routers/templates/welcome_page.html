@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Blog Feedback</title>
-    <!-- Подключаем Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Основные стили для страницы */
@@ -186,6 +184,7 @@
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Легкая тень для улучшения видимости */
         }
+
     </style>
 </head>
 
@@ -267,28 +266,71 @@
 
     <!-- Подключение Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        // Логика для отображения дополнительных полей при выборе баг-репорта
-        const feedbackTypeSelect = document.getElementById('feedback_type');
-        const bugReportFields = document.getElementById('bug-report-fields');
-
-        feedbackTypeSelect.addEventListener('change', function () {
-            if (this.value === 'bug_report') {
-                bugReportFields.style.display = 'block';
-            } else {
-                bugReportFields.style.display = 'none';
-            }
-        });
-
-        // Перенаправление на страницу благодарности после клика по кнопке
+        // Обработчик клика на кнопку отправки формы
         document.getElementById('submit-btn').addEventListener('click', function (event) {
-            event.preventDefault();  // Останавливаем стандартную отправку формы
+            event.preventDefault();  // Останавливаем стандартное поведение кнопки
 
-            // Перенаправление на страницу благодарности
-            window.location.href = "/v1/posts/thank-you";
+            // Получаем форму и создаем объект FormData для отправки данных
+            const form = document.getElementById('feedback-form');
+            const formData = new FormData(form);
+
+            // Получаем токен из localStorage (или другого хранилища)
+            const token = localStorage.getItem('access_token');
+            console.log("Token from localStorage:", token);
+
+            if (!token) {
+                alert('Authentication token is missing!');
+                return;
+            }
+
+            // Проверяем состояние
+            const isPublished = document.getElementById('notifications').checked;
+
+            // Извлекаем нужные данные для отправки на сервер
+            const name = form.querySelector('input[name="name"]').value;
+            const feedback = form.querySelector('textarea[name="feedback"]').value;
+            const feedbackType = form.querySelector('select[name="feedback_type"]').value;
+            const imageFile = form.querySelector('input[name="screenshot"]').files[0];
+
+            // Добавляем в FormData дополнительные поля, включая поля для title, content, и type
+            formData.append('title', name);  // Используем имя пользователя для title
+            formData.append('content', feedback);  // Используем текст отзыва для content
+            formData.append('published', isPublished);  // Устанавливаем значение поля published из переключателя
+            formData.append('type', feedbackType === 'feature_suggestion' ? 'feature' : 'bug');  // Устанавливаем тип отзыва
+
+            // Если файл выбран, добавляем его в данные
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            // Отправляем данные на сервер через AJAX
+            $.ajax({
+                url: 'http://localhost:8000/v1/posts/',  // Убедитесь, что этот адрес правильный
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                success: function (response) {
+                    alert('Feedback submitted successfully!');
+                    console.log('Success response:', response);
+
+                    // Перенаправление на страницу благодарности после успешной отправки
+                    window.location.href = '/v1/posts/thank-you';
+                },
+                error: function (xhr, status, error) {
+                    alert('Error submitting feedback!');
+                    console.log('XHR:', xhr);
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                }
+            });
         });
-
         // Перенаправление на страницу форума при клике на кнопку
         document.getElementById('redirect-btn').addEventListener('click', function (event) {
             event.preventDefault();  // Останавливаем стандартное поведение (переход по ссылке)
@@ -299,5 +341,4 @@
     </script>
 
 </body>
-
 </html>

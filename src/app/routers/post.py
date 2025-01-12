@@ -1,7 +1,17 @@
 import os
 from typing import List, Optional
 from fastapi.templating import Jinja2Templates
-from fastapi import Response, status, HTTPException, Depends, APIRouter, Request
+from fastapi import (
+    Response,
+    status,
+    HTTPException,
+    Depends,
+    APIRouter,
+    Request,
+    UploadFile,
+    File,
+    Form,
+)
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from starlette.responses import HTMLResponse
@@ -11,10 +21,14 @@ from ..database import get_db
 from ..models import User
 from ..oauth2 import oauth2_scheme, verify_access_token, get_current_user
 
+
 router = APIRouter(prefix="/v1/posts", tags=["Posts"])
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 templates = Jinja2Templates(directory=template_dir)
+
+UPLOAD_DIR = "./uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 @router.get("/welcome_page", response_class=HTMLResponse)
@@ -68,11 +82,33 @@ def get_post(
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
 def create_post(
-    post: schemas.PostCreate,
+    title: str = Form(...),
+    content: str = Form(...),
+    published: bool = Form(True),
+    type: str = Form(...),
+    image: UploadFile = File(None),
     db: Session = Depends(get_db),
-    current_user: User = Depends(oauth2.get_current_user),
+    current_user: schemas.User = Depends(oauth2.get_current_user),
 ):
-    new_post = models.Post(owner_id=current_user.id, **post.dict())
+    image_url = None
+
+    if image:
+        file_location = os.path.join(UPLOAD_DIR, image.filename)
+
+        with open(file_location, "wb") as f:
+            f.write(image.file.read())
+
+        image_url = f"/uploads/{image.filename}"
+
+    new_post = models.Post(
+        owner_id=current_user.id,
+        title=title,
+        content=content,
+        published=published,
+        type=type,
+        image_url=image_url,
+    )
+
     db.add(new_post)
     db.commit()
     db.refresh(new_post)

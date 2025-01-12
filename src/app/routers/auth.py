@@ -36,20 +36,33 @@ def login(
             .filter(models.User.email == user_credentials.username)
             .first()
         )
+
         if user is None:
+            logging.warning(
+                f"Login attempt failed for {user_credentials.username}: User not found"
+            )
             raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials"
+                status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
             )
 
         if not verify(user_credentials.password, user.password):
+            logging.warning(
+                f"Login attempt failed for {user_credentials.username}: Incorrect password"
+            )
             raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials"
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password"
             )
 
         access_token = create_access_token(data={"user_id": user.id, "sub": user.email})
+        logging.info(f"User {user.email} logged in successfully")
+
         return schemas.Token(access_token=access_token)
+
+    except HTTPException as http_err:
+        logging.error(f"HTTP error during login: {http_err.detail}")
+        raise http_err
     except Exception as e:
-        logging.error(f"Error during login: {str(e)}")
+        logging.error(f"Unexpected error during login: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal Server Error",

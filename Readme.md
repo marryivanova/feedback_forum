@@ -163,3 +163,13 @@ CREATE TABLE votes (
 Остановите и удалите контейнер:
 - docker stop my_postgres
 - docker rm my_postgres
+
+для миграций:
+
+- alembic init alembic
+alembic.ini — конфигурационный файл для Alembic.
+Папку versions — здесь будут храниться ваши миграции.
+env.py — файл, который отвечает за подключение к базе данных и выполнение миграций.
+
+- alembic revision --autogenerate -m "Add image_url to Post model"
+- alembic upgrade head
