@@ -1,5 +1,6 @@
 import os
 from typing import List, Optional
+from sqlalchemy.orm import joinedload
 from fastapi.templating import Jinja2Templates
 from fastapi import (
     Response,
@@ -24,7 +25,7 @@ from ..oauth2 import oauth2_scheme, verify_access_token, get_current_user
 
 router = APIRouter(prefix="/v1/posts", tags=["Posts"])
 
-template_dir = os.path.join(os.path.dirname(__file__), "templates")
+template_dir = os.path.join(os.path.dirname(__file__), "../../frontend")
 templates = Jinja2Templates(directory=template_dir)
 
 UPLOAD_DIR = "./uploads"
@@ -80,6 +81,15 @@ def get_post(
     return post
 
 
+@router.get("/posts/{post_id}/image")
+def get_post_image(post_id: int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    if not post or not post.image_data:
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    return Response(content=post.image_data, media_type="image/jpeg")
+
+
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
 def create_post(
     title: str = Form(...),
@@ -90,15 +100,11 @@ def create_post(
     db: Session = Depends(get_db),
     current_user: schemas.User = Depends(oauth2.get_current_user),
 ):
+    image_data = None
     image_url = None
 
     if image:
-        file_location = os.path.join(UPLOAD_DIR, image.filename)
-
-        with open(file_location, "wb") as f:
-            f.write(image.file.read())
-
-        image_url = f"/uploads/{image.filename}"
+        image_data = image.file.read()
 
     new_post = models.Post(
         owner_id=current_user.id,
@@ -106,17 +112,23 @@ def create_post(
         content=content,
         published=published,
         type=type,
-        image_url=image_url,
+        image_data=image_data,
     )
 
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
 
+    if image_data:
+        image_url = f"/posts/{new_post.id}/image"
+        new_post.image_url = image_url
+        db.commit()
+        db.refresh(new_post)
+
     return new_post
 
 
-@router.put("/{post_id}", response_model=schemas.Post)
+@router.put("/{post_id}", response_model=schemas.PostOut)
 def update_post(
     post_id: int,
     post: schemas.PostCreate,
@@ -136,7 +148,23 @@ def update_post(
     post_query.update(post.dict(), synchronize_session=False)
     db.commit()
 
-    return post_query.first()
+    post_with_comments = (
+        db.query(models.Post)
+        .options(joinedload(models.Post.comments))
+        .filter(models.Post.id == post_id)
+        .first()
+    )
+
+    return schemas.PostOut(
+        Post=post_with_comments,
+        votes=0,
+        comments=[
+            schemas.CommentOut.from_orm(comment)
+            for comment in post_with_comments.comments
+        ]
+        if post_with_comments.comments
+        else [],
+    )
 
 
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)

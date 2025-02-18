@@ -133,6 +133,8 @@ CREATE TABLE users (
     password VARCHAR NOT NULL
 );
 
+CREATE TYPE post_type AS ENUM ('bug', 'feature', 'feedback);
+
 -- Создание таблицы posts
 CREATE TABLE posts (
     id SERIAL PRIMARY KEY,

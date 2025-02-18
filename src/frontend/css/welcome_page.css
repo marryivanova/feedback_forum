@@ -1,0 +1,178 @@
+/* Основные стили для страницы */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+    background-image: linear-gradient(135deg, #1e2a47, #4c84ff); /* Градиентный фон */
+}
+
+.container {
+    background-color: rgba(30, 42, 71, 0.9); /* Полупрозрачный темно-синий фон */
+    color: white;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 800px;
+    transform: translateY(0);
+    animation: fadeIn 1s ease-out; /* Анимация появления */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.btn-custom {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    color: white;
+    background-color: #4c84ff;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-custom:hover {
+    background-color: #3869d9;
+    border-color: #3869d9;
+}
+
+.form-container {
+    margin-top: 40px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: slideInUp 1s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4c84ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #3869d9;
+}
+
+/* Стиль для переключателя */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #4c84ff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Новый стиль для выделения текста */
+.switch-label {
+    color: black;  /* Черный цвет для контраста */
+    font-weight: bold;
+    margin-right: 10px;
+    background-color: white; /* Белый фон для выделения */
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Легкая тень для улучшения видимости */
+}

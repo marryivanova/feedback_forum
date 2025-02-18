@@ -4,8 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi import Request
 
-template_dir = os.path.join(os.path.dirname(__file__), "templates")
-
+template_dir = os.path.join(os.path.dirname(__file__), "../../frontend")
 templates = Jinja2Templates(directory=template_dir)
 
 router = APIRouter(tags=["Root"])

@@ -60,6 +60,9 @@ app.add_middleware(
 
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
+frontend_dir = os.path.join(os.path.dirname(__file__), "../frontend")
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
 app.include_router(root.router)
 app.include_router(auth.router)
 app.include_router(post.router)

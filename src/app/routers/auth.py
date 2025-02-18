@@ -16,7 +16,7 @@ from ...utils.verifyi import verify
 router = APIRouter(prefix="/v1/login", tags=["Authentication"])
 
 
-template_dir = os.path.join(os.path.dirname(__file__), "templates")
+template_dir = os.path.join(os.path.dirname(__file__), "../../frontend")
 templates = Jinja2Templates(directory=template_dir)
 
 

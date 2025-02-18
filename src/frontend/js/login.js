@@ -1,27 +1,32 @@
-// Модальное окно для регистрации
+// Check if the user is already logged in by checking if there's a token in localStorage
+if (localStorage.getItem('access_token')) {
+    window.location.href = "/v1/posts/welcome_page"; // Redirect to welcome page if already logged in
+}
+
+// Get modal and button for signup
 var modal = document.getElementById("signupModal");
 var btn = document.getElementById("sign-up-btn");
 var span = document.getElementsByClassName("close")[0];
 
-// Открыть модальное окно
-btn.onclick = function() {
+// Open the modal when clicking the "Sign up" link
+btn.onclick = function () {
     modal.style.display = "block";
 }
 
-// Закрыть модальное окно
-span.onclick = function() {
+// Close the modal when clicking the <span> (x) element
+span.onclick = function () {
     modal.style.display = "none";
 }
 
-// Закрыть модальное окно при клике вне области окна
-window.onclick = function(event) {
+// Close the modal when clicking anywhere outside of the modal
+window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
 
-// Обработка входа
-document.getElementById('login-form').addEventListener('submit', async function(event) {
+// Send login request
+document.getElementById('login-form').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const username = document.getElementById('username').value;
@@ -42,8 +47,9 @@ document.getElementById('login-form').addEventListener('submit', async function(
 
         if (response.ok) {
             const token = result.access_token;
-            localStorage.setItem('access_token', token);  // Сохранить токен
-            window.location.href = "/v1/posts/welcome_page";  // Перенаправить на главную
+            localStorage.setItem('access_token', token);  // Save token to localStorage
+            console.log('Token saved:', token);  // Log the token
+            window.location.href = "/v1/posts/welcome_page";  // Redirect to welcome page
         } else {
             document.getElementById('message').innerHTML = `
                 <div class="error-message">
@@ -61,8 +67,8 @@ document.getElementById('login-form').addEventListener('submit', async function(
     }
 });
 
-// Обработка регистрации
-document.getElementById('signup-form').addEventListener('submit', async function(event) {
+// Send signup request
+document.getElementById('signup-form').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const email = document.getElementById('signup-email').value;
@@ -80,11 +86,9 @@ document.getElementById('signup-form').addEventListener('submit', async function
         const result = await response.json();
 
         if (response.ok) {
-            document.getElementById('signup-message').innerHTML = `
-                <div class="success-message">
-                    Account created successfully! Please log in.
-                </div>
-            `;
+            const token = result.access_token;
+            localStorage.setItem('access_token', token);  // Save token to localStorage
+            window.location.href = "/v1/posts/welcome_page";  // Redirect to welcome page
         } else {
             document.getElementById('signup-message').innerHTML = `
                 <div class="error-message">

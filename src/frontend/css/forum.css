@@ -1,0 +1,378 @@
+body {
+    background: linear-gradient(to right, #1d3c6a, #4c84ff);
+    color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #2a4a8d;
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.feedback-item {
+    background-color: #ffffff;
+    color: #333;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feedback-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+.comment-section {
+    margin-top: 20px;
+    cursor: pointer;
+    color: #2a4a8d;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.comment-section:hover {
+    color: #4c84ff;
+}
+
+.comment {
+    background-color: #f9f9f9;
+    padding: 12px;
+    border-radius: 5px;
+    margin: 8px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.comment:hover {
+    transform: scale(1.02);
+}
+
+.comment-form {
+    margin-top: 20px;
+    display: none;
+    padding: 12px;
+    border: 1px solid #3869d9;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form input,
+.comment-form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #3869d9;
+    transition: border-color 0.3s ease;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+    border-color: #4c84ff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(42, 74, 141, 0.3);
+}
+
+.comment-form button {
+    background: linear-gradient(90deg, #3869d9, #4c84ff);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.comment-form button:hover {
+    background: linear-gradient(90deg, #4c84ff, #3869d9);
+    transform: translateY(-2px);
+}
+
+.leave-comment-button {
+    background-color: #3869d9;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.leave-comment-button:hover {
+    background-color: #4c84ff;
+}
+
+.feedback-item.popular {
+    background-color: #d1e7ff;
+}
+
+.comment-content {
+    max-height: 300px;
+    overflow-y: scroll;
+    padding: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+}
+
+/* Стили для прокрутки внутри блока с комментариями */
+.comment-content::-webkit-scrollbar {
+    width: 10px; /* Ширина скроллбара */
+}
+
+.comment-content::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Цвет фона скроллбара */
+    border-radius: 5px; /* Скругление углов */
+}
+
+.comment-content::-webkit-scrollbar-thumb {
+    background-color: #3869d9; /* Синий цвет для ползунка */
+    border-radius: 5px; /* Скругление углов ползунка */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+}
+
+.comment-content .comment {
+    padding-left: 20px;
+    background-color: #e7f1ff;
+}
+
+.container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 8px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #3869d9;
+    border-radius: 8px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #4c84ff;
+}
+
+.like-dislike-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.like-dislike-buttons .like,
+.like-dislike-buttons .dislike {
+    font-size: 20px;
+    cursor: pointer;
+    color: #999;
+}
+
+.like-dislike-buttons .like:hover,
+.like-dislike-buttons .dislike:hover {
+    color: #4c84ff;
+    transform: scale(1.2);
+}
+
+.vote-button {
+    background-color: #f0f0f0;
+    color: #4c84ff;
+    font-weight: bold;
+    border: 1px solid #4c84ff;
+    padding: 8px 16px;
+}
+
+.vote-button:hover {
+    background-color: #4c84ff;
+    color: white;
+}
+
+.comment .like-dislike-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.comment .like,
+.comment .dislike {
+    font-size: 18px;
+    color: #bbb;
+    cursor: pointer;
+}
+
+.comment .like:hover,
+.comment .dislike:hover {
+    color: #4c84ff;
+    transform: scale(1.1);
+}
+
+.comment .like.liked {
+    color: #ff4081;
+}
+
+.comment .dislike.disliked {
+    color: #f44336;
+}
+
+/* Добавление теней */
+.feedback-item,
+.comment {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Кнопки редактирования и удаления */
+.comment-actions button {
+    background-color: transparent;
+    border: 2px solid #e7a1a1; /* Нежный красный для удаления */
+    color: #e7a1a1; /* Нежный красный */
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.comment-actions button:hover {
+    background-color: #e7a1a1;
+    color: white;
+    transform: translateY(-2px); /* Плавное поднятие */
+}
+
+.comment-actions .edit-btn {
+    border-color: #4e88d1; /* Мягкий синий для редактирования */
+    color: #4e88d1;
+}
+
+.comment-actions .edit-btn:hover {
+    background-color: #4e88d1;
+    color: white;
+}
+
+.comment-actions .delete-btn {
+    border-color: #e7a1a1; /* Нежный красный */
+    color: #e7a1a1;
+}
+
+.comment-actions .delete-btn:hover {
+    background-color: #e7a1a1;
+    color: white;
+}
+
+/* Кнопка фильтрации справа */
+.filter-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.dropdown-toggle {
+    background-color: #4e8bf5; /* Синий цвет */
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+    background-color: #3a7bd5; /* Темнеет при наведении */
+    transform: scale(1.05); /* Легкое увеличение */
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0); /* Возвращаем на место */
+}
+
+/* Убираем смещение выпадающего меню */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-item {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-item:focus {
+    background-color: #d1e7ff; /* Легкая подсветка при фокусе */
+}
+
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .feedback-item {
+        padding: 15px;
+        margin: 10px 0;
+    }
+
+    .comment-form {
+        padding: 10px;
+    }
+
+    .vote-button {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .leave-comment-button {
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+}

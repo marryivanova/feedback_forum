@@ -9,6 +9,7 @@ from sqlalchemy import (
     TIMESTAMP,
     ForeignKey,
     DateTime,
+    LargeBinary,
 )
 from sqlalchemy.dialects.mysql import ENUM
 from sqlalchemy.orm import relationship
@@ -34,6 +35,7 @@ class Post(Base):
     )
     owner = relationship("User")
     image_url = Column(String, nullable=True)
+    image_data = Column(LargeBinary, nullable=True)
 
     type = Column(
         ENUM("bug", "feature", "feedback", name="post_type"),
@@ -42,7 +44,6 @@ class Post(Base):
     )
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    # (one-to-many)
     comments = relationship(
         "Comment", back_populates="post", cascade="all, delete-orphan"
     )
