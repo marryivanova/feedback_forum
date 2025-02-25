@@ -263,3 +263,35 @@ def delete_comment(
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.patch("/{post_id}/comments", status_code=status.HTTP_200_OK)
+def update_comment(
+    post_id: int,
+    comment_id: int,
+    comment_data: schemas.CommentUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(oauth2.get_current_user),
+):
+    comment = (
+        db.query(models.Comment)
+        .filter(models.Comment.post_id == post_id, models.Comment.id == comment_id)
+        .first()
+    )
+
+    if comment is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Comment with id {comment_id} not found in post with id {post_id}",
+        )
+
+    if comment.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to perform requested action",
+        )
+
+    comment.content = comment_data.content
+    db.commit()
+
+    return {"message": "Comment updated successfully"}

@@ -53,11 +53,15 @@ class CommentBase(BaseModel):
 class CommentCreate(CommentBase):
     pass
 
+class CommentUpdate(BaseModel):
+    content: str
+
 
 class Comment(CommentBase):
     id: int
     post_id: int
     user_id: int
+    likes_count: int
 
     class Config:
         orm_mode = True
@@ -67,6 +71,7 @@ class CommentBase(BaseModel):
     content: str
     post_id: int
     user_id: int
+    likes_count: int
 
     class Config:
         orm_mode = True

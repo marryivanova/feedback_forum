@@ -1,55 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Feedback Forum</title>
-    <!-- Подключение Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Подключение Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Подключение локального CSS -->
     <link rel="stylesheet" href="/static/css/forum.css">
-
 </head>
-
 <body>
-    <div class="container">
-        <h1>User Feedback Forum</h1>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">User Feedback Forum 📝</h1>
 
         <!-- Фильтр -->
-        <div class="filter-container">
+        <div class="filter-container mb-4">
             <div class="dropdown">
-                <button class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Option
+                <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-filter"></i> Filter Options
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li><a class="dropdown-item" href="#">
-                        <i class="fas fa-clock"></i> Latest Feedback
-                        <small class="text-muted">Sort by creation time</small>
+                        🕒 Latest Feedback
+                        <small class="text-muted d-block">Sort by creation time</small>
                     </a></li>
                     <li><a class="dropdown-item" href="#">
-                        <i class="fas fa-star"></i> Popularity
-                        <small class="text-muted">Sort by number of votes</small>
+                        ⭐ Popularity
+                        <small class="text-muted d-block">Sort by number of votes</small>
                     </a></li>
                     <li><a class="dropdown-item" href="#">
-                        <i class="fas fa-cogs"></i> Type of Feedback
-                        <small class="text-muted">Sort by feedback type</small>
+                        🛠️ Type of Feedback
+                        <small class="text-muted d-block">Sort by feedback type</small>
                     </a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- Feedback List -->
-        <div id="feedback-list">
+        <!-- Список отзывов -->
+        <div id="feedback-list" class="row">
             <!-- Отзывы будут загружаться сюда -->
+        </div>
+
+        <!-- Лоадер -->
+        <div id="loader" class="text-center my-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
 
-    <!-- Подключение локального JavaScript -->
+    <!-- Подключение JavaScript -->
     <script src="/static/js/forum.js"></script>
 </body>
-
 </html>

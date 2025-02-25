@@ -1,52 +1,181 @@
+/* Основные стили */
 body {
-    background: linear-gradient(to right, #1d3c6a, #4c84ff);
+    background: linear-gradient(135deg, #1d3c6a, #4c84ff);
     color: #f4f4f4;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
 }
 
+/* Параллакс-эффект для фона */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #1d3c6a, #4c84ff, #1d3c6a, #4c84ff);
+    background-size: 400% 400%;
+    z-index: -1;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Контейнер */
 .container {
     width: 90%;
     max-width: 900px;
     margin: 40px auto;
-    padding: 20px;
-    background: #2a4a8d;
-    border-radius: 16px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    background: rgba(42, 74, 141, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     max-height: 85vh;
     overflow-y: auto;
+    backdrop-filter: blur(15px);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeIn 1s ease-in-out;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Стили кнопки */
+.vote-button {
+    background-color: #007bff; /* Позитивная кнопка */
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    margin-top: 20px;
+}
+
+.vote-button .icon {
+    margin-right: 8px;
+}
+
+.vote-button:hover {
+    opacity: 0.8;
+}
+
+.vote-button .icon {
+    margin-right: 8px; /* Отступ между иконкой и числом */
+}
+
+/* Наведение */
+.vote-button:hover {
+    background-color: #0056b3; /* Темный оттенок при наведении */
+    transform: translateY(-2px); /* Легкий подъем при наведении */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Увеличение тени */
+}
+
+/* Состояние при нажатии */
+.vote-button:active {
+    transform: translateY(2px); /* Легкое смещение вниз при клике */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Меньшая тень */
+}
+
+/* Картинка и счетчик */
+.vote-count {
+    font-weight: bold;
+    font-size: 18px;
+    color: #ffd700; /* Золотой цвет для выделения числа */
+}
+
+/* Анимация кнопки */
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+.vote-button:focus {
+    animation: bounce 0.5s ease-in-out; /* Добавление анимации при фокусе */
+}
+
+/* Стилизация скроллбара для WebKit (Chrome, Safari, Edge) */
+.container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #4c84ff, #3869d9);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #3869d9, #4c84ff);
+}
+
+/* Заголовок */
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2.5rem;
-    font-weight: 600;
+    font-size: 2.8rem; /* Увеличим размер */
+    font-weight: 700; /* Более жирный шрифт */
     color: #fff;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Более заметная тень */
 }
 
+/* Карточка отзыва */
 .feedback-item {
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.95); /* Полупрозрачный белый */
     color: #333;
-    padding: 20px;
+    padding: 25px; /* Увеличим отступы */
     margin: 20px 0;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px; /* Более скругленные углы */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Более глубокая тень */
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feedback-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px); /* Больше сдвиг при наведении */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); /* Более выраженная тень */
 }
 
+/* Секция комментариев */
 .comment-section {
     margin-top: 20px;
     cursor: pointer;
@@ -61,232 +190,229 @@ h1 {
 
 .comment {
     background-color: #f9f9f9;
-    padding: 12px;
-    border-radius: 5px;
-    margin: 8px 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px; /* Увеличим отступы */
+    border-radius: 10px; /* Более скругленные углы */
+    margin: 10px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Более глубокая тень */
     transition: transform 0.2s ease;
     max-width: 100%;
     word-wrap: break-word;
 }
 
 .comment:hover {
-    transform: scale(1.02);
+    transform: scale(1.03); /* Увеличим масштаб при наведении */
 }
 
+/* Форма комментария */
 .comment-form {
     margin-top: 20px;
     display: none;
-    padding: 12px;
+    padding: 20px; /* Увеличим отступы */
     border: 1px solid #3869d9;
-    border-radius: 5px;
+    border-radius: 12px; /* Более скругленные углы */
     background-color: #f0f0f0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Более глубокая тень */
 }
 
 .comment-form input,
 .comment-form textarea {
     width: calc(100% - 20px);
-    padding: 10px;
+    padding: 12px; /* Увеличим отступы */
     margin: 10px 0;
-    border-radius: 5px;
+    border-radius: 8px; /* Более скругленные углы */
     border: 1px solid #3869d9;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .comment-form input:focus,
 .comment-form textarea:focus {
     border-color: #4c84ff;
     outline: none;
-    box-shadow: 0 0 5px rgba(42, 74, 141, 0.3);
+    box-shadow: 0 0 8px rgba(42, 74, 141, 0.4); /* Более выраженная тень */
 }
 
 .comment-form button {
     background: linear-gradient(90deg, #3869d9, #4c84ff);
     color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
+    padding: 15px 25px; /* Увеличим отступы */
+    border-radius: 8px; /* Более скругленные углы */
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .comment-form button:hover {
     background: linear-gradient(90deg, #4c84ff, #3869d9);
-    transform: translateY(-2px);
+    transform: translateY(-3px); /* Больше сдвиг при наведении */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Более выраженная тень */
 }
 
+
+/* Кнопка "Leave a Comment" */
 .leave-comment-button {
-    background-color: #3869d9;
+    background: linear-gradient(90deg, #3869d9, #4c84ff);
     color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
+    padding: 15px 25px; /* Увеличим отступы */
+    border-radius: 8px; /* Более скругленные углы */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
 }
 
 .leave-comment-button:hover {
-    background-color: #4c84ff;
+    background: linear-gradient(90deg, #4c84ff, #3869d9);
+    transform: translateY(-3px); /* Больше сдвиг при наведении */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Более выраженная тень */
 }
 
-.feedback-item.popular {
-    background-color: #d1e7ff;
-}
-
-.comment-content {
-    max-height: 300px;
-    overflow-y: scroll;
-    padding: 10px;
-    margin-top: 10px;
-    border-top: 1px solid #ccc;
-}
-
-/* Стили для прокрутки внутри блока с комментариями */
-.comment-content::-webkit-scrollbar {
-    width: 10px; /* Ширина скроллбара */
-}
-
-.comment-content::-webkit-scrollbar-track {
-    background-color: #f0f0f0; /* Цвет фона скроллбара */
-    border-radius: 5px; /* Скругление углов */
-}
-
-.comment-content::-webkit-scrollbar-thumb {
-    background-color: #3869d9; /* Синий цвет для ползунка */
-    border-radius: 5px; /* Скругление углов ползунка */
-    transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
-}
-
-.comment-content .comment {
-    padding-left: 20px;
-    background-color: #e7f1ff;
-}
-
-.container::-webkit-scrollbar {
-    width: 12px;
-}
-
-.container::-webkit-scrollbar-track {
-    background: #e0e0e0;
-    border-radius: 8px;
-}
-
-.container::-webkit-scrollbar-thumb {
-    background: #3869d9;
-    border-radius: 8px;
-}
-
-.container::-webkit-scrollbar-thumb:hover {
-    background: #4c84ff;
-}
-
+/* Кнопки голосования */
 .like-dislike-buttons {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 15px; /* Увеличим расстояние между кнопками */
 }
 
 .like-dislike-buttons .like,
 .like-dislike-buttons .dislike {
-    font-size: 20px;
+    font-size: 24px; /* Увеличим размер иконок */
     cursor: pointer;
     color: #999;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.like-dislike-buttons .like:hover,
-.like-dislike-buttons .dislike:hover {
-    color: #4c84ff;
-    transform: scale(1.2);
-}
-
-.vote-button {
-    background-color: #f0f0f0;
-    color: #4c84ff;
-    font-weight: bold;
-    border: 1px solid #4c84ff;
-    padding: 8px 16px;
-}
-
-.vote-button:hover {
-    background-color: #4c84ff;
-    color: white;
-}
-
-.comment .like-dislike-buttons {
+.comment-actions {
     display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-}
-
-.comment .like,
-.comment .dislike {
-    font-size: 18px;
-    color: #bbb;
-    cursor: pointer;
-}
-
-.comment .like:hover,
-.comment .dislike:hover {
-    color: #4c84ff;
-    transform: scale(1.1);
-}
-
-.comment .like.liked {
-    color: #ff4081;
-}
-
-.comment .dislike.disliked {
-    color: #f44336;
-}
-
-/* Добавление теней */
-.feedback-item,
-.comment {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    justify-content: flex-end; /* Выравниваем кнопки по правому краю */
+    gap: 10px; /* Расстояние между кнопками */
+    margin-top: 10px; /* Отступ сверху */
 }
 
 /* Кнопки редактирования и удаления */
-.comment-actions button {
-    background-color: transparent;
-    border: 2px solid #e7a1a1; /* Нежный красный для удаления */
-    color: #e7a1a1; /* Нежный красный */
-    padding: 8px 15px;
+.comment-actions .edit-btn {
+    background: linear-gradient(90deg, #6a8fff, #4c6fd9); /* Мягкий синий градиент */
+    border: none;
+    color: white;
+    padding: 10px 20px;
     font-size: 14px;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-left: 10px;
-}
-
-.comment-actions button:hover {
-    background-color: #e7a1a1;
-    color: white;
-    transform: translateY(-2px); /* Плавное поднятие */
-}
-
-.comment-actions .edit-btn {
-    border-color: #4e88d1; /* Мягкий синий для редактирования */
-    color: #4e88d1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .comment-actions .edit-btn:hover {
-    background-color: #4e88d1;
-    color: white;
+    background: linear-gradient(90deg, #4c6fd9, #6a8fff); /* Инвертируем градиент */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Кнопка удаления */
 .comment-actions .delete-btn {
-    border-color: #e7a1a1; /* Нежный красный */
-    color: #e7a1a1;
+    background: linear-gradient(90deg, #ff8a8a, #ff6b6b); /* Мягкий красный градиент */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .comment-actions .delete-btn:hover {
-    background-color: #e7a1a1;
-    color: white;
+    background: linear-gradient(90deg, #ff6b6b, #ff8a8a); /* Инвертируем градиент */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Кнопка фильтрации справа */
+/* Кнопка лайка */
+.comment-actions .like-btn {
+    background: transparent; /* Прозрачный фон */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Полупрозрачная рамка */
+    color: white;
+    padding: 8px 16px; /* Уменьшаем отступы */
+    font-size: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: inline-flex; /* Для выравнивания иконок и текста */
+    align-items: center; /* Выравниваем по центру */
+    justify-content: center; /* Центрируем содержимое */
+    position: relative;
+    overflow: hidden;
+}
+
+.comment-actions .like-btn:hover {
+    background: rgba(255, 255, 255, 0.1); /* Легкая прозрачная заливка при наведении */
+    border-color: rgba(255, 255, 255, 0.8); /* Более яркая рамка */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Анимация пульсации при нажатии */
+.comment-actions .like-btn:active {
+    transform: scale(0.95);
+}
+
+/* Сердечко */
+.comment-actions .like-btn .heart {
+    color: white;
+    transition: color 0.3s ease, transform 0.3s ease;
+    margin-right: 8px; /* Отступ между иконкой и текстом */
+}
+
+.comment-actions .like-btn.liked .heart {
+    color: red; /* Красный цвет при лайке */
+    animation: heartBeat 0.5s ease-in-out; /* Анимация при лайке */
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(0.9); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Количество лайков */
+.comment-actions .like-btn .like-count {
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    transition: color 0.3s ease;
+    margin-left: 4px; /* Отступ между иконкой и числом */
+}
+
+.comment-actions .like-btn.liked .like-count {
+    color: red; /* Красный цвет при лайке */
+}
+
+/* Эффект при наведении на кнопку */
+.comment-actions .like-btn:hover .like-count {
+    color: #ff6b6b; /* Легкий красный оттенок */
+}
+
+/* Микроанимация для количества лайков */
+.comment-actions .like-btn .like-count {
+    transition: transform 0.3s ease;
+}
+
+.comment-actions .like-btn:hover .like-count {
+    transform: translateY(-2px);
+}
+
+/* Иконки */
+.comment-actions button i {
+    margin-right: 8px;
+}
+
+/* Фильтр */
 .filter-container {
     display: flex;
     justify-content: flex-end;
@@ -294,66 +420,27 @@ h1 {
 }
 
 .dropdown-toggle {
-    background-color: #4e8bf5; /* Синий цвет */
+    background: linear-gradient(90deg, #3869d9, #4c84ff);
     color: white;
     border: none;
-    padding: 14px 30px;
-    border-radius: 10px;
+    padding: 15px 30px; /* Увеличим отступы */
+    border-radius: 12px; /* Более скругленные углы */
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dropdown-toggle:hover {
-    background-color: #3a7bd5; /* Темнеет при наведении */
-    transform: scale(1.05); /* Легкое увеличение */
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.dropdown-menu.show {
-    display: block;
-    opacity: 1;
-    transform: translateY(0); /* Возвращаем на место */
-}
-
-/* Убираем смещение выпадающего меню */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-item {
-    padding: 12px 20px;
-    font-size: 16px;
-    color: #333;
-    text-align: left;
-    transition: background-color 0.3s ease;
-}
-
-.dropdown-item:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown-item:focus {
-    background-color: #d1e7ff; /* Легкая подсветка при фокусе */
+    background: linear-gradient(90deg, #4c84ff, #3869d9);
+    transform: translateY(-3px); /* Больше сдвиг при наведении */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Более выраженная тень */
 }
 
 /* Мобильная адаптивность */
 @media (max-width: 768px) {
     .container {
-        padding: 10px;
+        padding: 15px;
         max-width: 100%;
     }
 

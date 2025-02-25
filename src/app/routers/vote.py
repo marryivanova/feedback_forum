@@ -7,7 +7,7 @@ from starlette.templating import Jinja2Templates
 
 from .. import oauth2, schemas, models
 from ..database import get_db
-from ..models import User
+from ..models import User, Comment
 
 router = APIRouter(prefix="/v1/vote", tags=["Vote"])
 
@@ -55,3 +55,28 @@ def vote_post(
 @router.get("/feedback/forum", response_class=HTMLResponse)
 def feedback_page(request: Request):
     return templates.TemplateResponse("forum.html", {"request": request})
+
+
+@router.post("/like", status_code=status.HTTP_200_OK)
+def like_comment(
+        comment_id: int,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(oauth2.get_current_user),
+):
+    comment = db.query(Comment).filter(Comment.id == comment_id).first()
+    if comment is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Comment with id {comment_id} does not exist.",
+        )
+
+    if comment.likes_count > 0:
+        comment.likes_count -= 1
+    else:
+        comment.likes_count += 1
+
+    db.commit()
+    db.refresh(comment)
+
+    return {"message": "Successfully updated like", "likes_count": comment.likes_count}
+

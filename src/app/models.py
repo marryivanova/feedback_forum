@@ -56,6 +56,7 @@ class Comment(Base):
     content = Column(String, index=True)
     post_id = Column(Integer, ForeignKey("posts.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
+    likes_count = Column(Integer, default=0)
 
     post = relationship("Post", back_populates="comments")
     user = relationship("User", back_populates="comments")

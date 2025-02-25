@@ -162,7 +162,8 @@ CREATE TABLE IF NOT EXISTS comments (
     post_id INTEGER,
     user_id INTEGER,
     FOREIGN KEY (post_id) REFERENCES posts(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    likes_count INTEGER DEFAULT 0
 );
 
 ```

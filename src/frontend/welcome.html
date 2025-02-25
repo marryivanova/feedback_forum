@@ -4,17 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Blog FastAPI</title>
-    <!-- Подключение локального CSS -->
+    <title>👋 Welcome to Blog FastAPI</title>
     <link rel="stylesheet" href="/static/css/welcome.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 
 <body>
+    <!-- Анимированный фон с параллакс-эффектом -->
+    <div class="background"></div>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
     <div class="container">
-        <h1>Welcome to Blog Feedback!</h1>
-        <p>Your go-to place for amazing blogs built!</p>
-        <!-- Кнопка для перехода на страницу авторизации -->
-        <a href="/v1/login/login_page" class="btn">Get Started</a>
+        <h1 class="animate__animated animate__fadeInDown">
+            <span class="emoji animate__animated animate__wobble animate__infinite">👋</span> Welcome to Blog Feedback!
+        </h1>
+        <p class="animate__animated animate__fadeInUp">Your go-to place for amazing blogs built!</p>
+        <a href="/v1/login/login_page" class="btn animate__animated animate__fadeIn">Get Started</a>
     </div>
 </body>
 

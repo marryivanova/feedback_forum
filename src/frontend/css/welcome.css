@@ -1,49 +1,161 @@
+/* Основные стили */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f3f4f6;
+    background: linear-gradient(to right, #1d3c6a, #4c84ff);
+    color: #f4f4f4;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
-    color: #333;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Анимированный фон с параллакс-эффектом */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #1d3c6a, #4c84ff, #1d3c6a, #4c84ff);
+    background-size: 400% 400%;
+    z-index: -1;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Звездный фон */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat top center;
+    z-index: -1;
+    animation: moveStars 50s linear infinite;
+}
+
+@keyframes moveStars {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -10000px 5000px;
+    }
+}
+
+/* Мерцание звезд */
+.twinkling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent url('https://www.transparenttextures.com/patterns/starfield.png') repeat top center;
+    z-index: -1;
+    animation: twinkle 2s linear infinite;
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
 }
 
 .container {
-    text-align: center;
-    background-color: #1e2a47; /* Темно-синий фон */
-    color: white;
-    padding: 50px;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(42, 82, 152, 0.8), rgba(30, 60, 114, 0.8)); /* Полупрозрачный градиент */
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    max-height: 85vh;
+    overflow-y: auto;
+    backdrop-filter: blur(10px); /* Эффект размытия */
+    position: relative;
+    z-index: 1;
+    color: #fff; /* Белый текст для контраста */
 }
 
 h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 p {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
+    text-align: center;
+    color: #e0e0e0;
     margin-bottom: 40px;
 }
 
 .btn {
-    width: 100%;
+    display: inline-block;
     padding: 15px 30px;
-    font-size: 1rem;
-    color: white;
     background-color: #4c84ff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    color: white;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 70%);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease;
 }
 
 .btn:hover {
-    background-color: #3869d9;
+    background-color: #3a6fd1;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Стили для анимированной эмодзи */
+.emoji {
+    font-size: 4rem; /* Размер эмодзи */
+    text-align: center; /* Центрирование эмодзи */
+    margin-bottom: 20px; /* Отступ снизу */
+    display: inline-block; /* Для анимации */
 }
