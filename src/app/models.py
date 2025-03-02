@@ -60,6 +60,7 @@ class Comment(Base):
 
     post = relationship("Post", back_populates="comments")
     user = relationship("User", back_populates="comments")
+    likes = relationship("Like", back_populates="comment")
 
 
 class User(Base, EntityBase):
@@ -69,6 +70,7 @@ class User(Base, EntityBase):
     password = Column(String, nullable=False)
 
     comments = relationship("Comment", back_populates="user")
+    likes = relationship("Like", back_populates="user")
 
 
 class Vote(Base):
@@ -85,3 +87,14 @@ class Vote(Base):
         primary_key=True,
         nullable=False,
     )
+
+
+class Like(Base):
+    __tablename__ = "likes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    comment_id = Column(Integer, ForeignKey("comments.id"))
+
+    user = relationship("User", back_populates="likes")
+    comment = relationship("Comment", back_populates="likes")

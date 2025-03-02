@@ -7,7 +7,7 @@ from starlette.templating import Jinja2Templates
 
 from .. import oauth2, schemas, models
 from ..database import get_db
-from ..models import User, Comment
+from ..models import User, Comment, Like
 
 router = APIRouter(prefix="/v1/vote", tags=["Vote"])
 
@@ -32,16 +32,17 @@ def vote_post(
         models.Vote.post_id == vote.post_id, models.Vote.user_id == current_user.id
     )
     found_vote = vote_query.first()
+
     if vote.direction == 1:
         if found_vote:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=f"User {current_user.id} has already voted on post {vote.post_id}.",
-            )
-        new_vote = models.Vote(post_id=vote.post_id, user_id=current_user.id)
-        db.add(new_vote)
-        db.commit()
-        return {"message": "Successfully added vote"}
+            vote_query.delete(synchronize_session=False)
+            db.commit()
+            return {"message": "Successfully removed vote"}
+        else:
+            new_vote = models.Vote(post_id=vote.post_id, user_id=current_user.id)
+            db.add(new_vote)
+            db.commit()
+            return {"message": "Successfully added vote"}
     else:
         if found_vote is None:
             raise HTTPException(
@@ -70,9 +71,14 @@ def like_comment(
             detail=f"Comment with id {comment_id} does not exist.",
         )
 
-    if comment.likes_count > 0:
+    existing_like = db.query(Like).filter(Like.comment_id == comment_id, Like.user_id == current_user.id).first()
+
+    if existing_like:
+        db.delete(existing_like)
         comment.likes_count -= 1
     else:
+        new_like = Like(user_id=current_user.id, comment_id=comment_id)
+        db.add(new_like)
         comment.likes_count += 1
 
     db.commit()

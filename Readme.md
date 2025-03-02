@@ -166,6 +166,16 @@ CREATE TABLE IF NOT EXISTS comments (
     likes_count INTEGER DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS likes (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    comment_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
+    UNIQUE (user_id, comment_id)
+);
+
+
 ```
 Запустить контейнер:
 - docker start my_postgres
